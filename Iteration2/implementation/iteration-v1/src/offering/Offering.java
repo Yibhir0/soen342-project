@@ -15,7 +15,7 @@ public class Offering {
 
     private Space space;
 
-    private Schedule  schedule;
+    private Schedule schedule;
 
     public Offering(String lessonType,
                     Space space, Schedule schedule) {

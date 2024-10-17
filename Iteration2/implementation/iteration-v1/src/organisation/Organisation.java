@@ -1,7 +1,6 @@
 package organisation;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Organisation {
     private String name;
@@ -23,10 +22,9 @@ public class Organisation {
        locations.add(location);
     }
     //temporary mean to get locations without database
-    public void storeLocations(ArrayList<Location> loc){
+    public void setLocations(ArrayList<Location> loc){
         this.locations=loc;
     }
-
 
     public String toString() {
         String result = "Name: " + name + "\nLocation: "  + "\nSpaces:\n";

@@ -26,7 +26,6 @@ public class Instructor implements User {
     }
 
     public void addOffering(OfferingItem offeringItem) {
-
         offeringItems.add(offeringItem);
     }
 
