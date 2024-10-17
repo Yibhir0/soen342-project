@@ -28,23 +28,26 @@ public class OfferingData {
 
             //yoga
             OfferingItem item2 = new OfferingItem( true, LocalTime.of(10,0), LocalTime.of(10,30));
-            item1.addInstructor(instructors.get(1));
+            item2.addInstructor(instructors.get(1));
             offeringItems.add(item2);
             return offeringItems;
     }
 
     public static ArrayList<Offering> generateOfferings() {
+
         ArrayList<Offering> offerings = new ArrayList<>();
+
+        // offeringItems (swimming and yoga)
         ArrayList<OfferingItem> offeringItems = generateOfferingItems();
 
         ArrayList<Schedule> schedules = ScheduleData.generateSchedules();
-
-
-
         ArrayList<Space> spaces = OrganisationData.generateSpaces();
+
+
         offerings.add(new Offering("Yoga",spaces.get(0),schedules.get(0)));
 
         offerings.get(0).addOfferingItem(offeringItems.get(0));
+
 
         offerings.add(new Offering("Swim",spaces.get(1),schedules.get(1)));
 

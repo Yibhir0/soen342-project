@@ -1,9 +1,11 @@
 package dataGenerator.organisation;
 
+import dataGenerator.user.InstructorData;
 import organisation.City;
 import organisation.Location;
 import organisation.Organisation;
 import organisation.Space;
+import user.Instructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,9 +17,15 @@ public class OrganisationData {
     public static Organisation generateOrganizationData(){
 
         Organisation organisation = new Organisation("");
-         //generating location and space data (temporary until database is implemented)
+
+        ArrayList<Instructor> instructors = InstructorData.generateInstructors();
+        organisation.setInstructors(instructors);
+
+        //generating location and space data (temporary until database is implemented)
         organisation.setLocations(generateLocations());
         ArrayList<Location> locations = organisation.getLocations();
+
+
         for(var loc:locations){
             ArrayList<Space> generatedSpaces= generateSpaces();
             loc.storeSpaces(generatedSpaces);

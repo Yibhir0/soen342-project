@@ -31,6 +31,8 @@ public class Instructor implements User {
         offeringItems.add(offeringItem);
     }
 
+
+
     public int login(String name,String password) {
         if (this.name.equals(name) && this.password.equals(password)) {
             return 1;
@@ -55,4 +57,7 @@ public class Instructor implements User {
     }
 
 
+    public String getSpeciality() {
+        return speciality;
+    }
 }

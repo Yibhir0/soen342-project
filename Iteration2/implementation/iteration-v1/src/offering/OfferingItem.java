@@ -29,6 +29,6 @@ public class OfferingItem {
 
     public String toString(){
         String type= isPrivate?"Private":"Group";
-        return startTime + " - " + endTime +". " + type + "Instructor: " + instructor.getName();
+        return startTime + " - " + endTime +". " + type + ". Instructor: " + instructor.getName();
     }
 }

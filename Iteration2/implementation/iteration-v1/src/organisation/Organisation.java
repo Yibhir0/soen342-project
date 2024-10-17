@@ -1,10 +1,14 @@
 package organisation;
 
+import user.Instructor;
+
 import java.util.ArrayList;
 
 public class Organisation {
     private String name;
     private ArrayList<Location> locations;
+
+    private ArrayList<Instructor> instructors;
 
     public Organisation(String name) {
         this.name = name;
@@ -26,4 +30,11 @@ public class Organisation {
         this.locations=loc;
     }
 
+    public void setInstructors(ArrayList<Instructor> instructors) {
+        this.instructors = instructors;
+    }
+
+    public ArrayList<Instructor> getInstructors() {
+        return this.instructors;
+    }
 }

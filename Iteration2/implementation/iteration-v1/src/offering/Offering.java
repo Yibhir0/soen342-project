@@ -6,6 +6,7 @@ import schedule.Schedule;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Offering {
@@ -29,11 +30,20 @@ public class Offering {
         offeringItemList.add(offeringItem);
     }
 
+    public String getLessonType() {
+        return lessonType;
+    }
+
+
     public String toString() {
         String offeringItems="";
         for(var o:offeringItemList){
             offeringItems+="\t"+o.toString()+"\n";
         }
-        return "We offer " + lessonType +" classes in " +space+ " on "+ schedule + "as follows: " + offeringItems;
+        return "We offer " + lessonType +" classes in " +space+ " on "+ schedule + "as follows: \n" + offeringItems;
+    }
+
+    public Collection<? extends OfferingItem> getOfferingItemList() {
+        return offeringItemList;
     }
 }
