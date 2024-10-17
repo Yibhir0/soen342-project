@@ -1,7 +1,12 @@
 package schedule;
 
+import organisation.City;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Schedule {
@@ -21,6 +26,25 @@ public class Schedule {
     }
 
     public String toString() {
-        return "Start Date: " + startDate + "\nEnd Date: " + endDate + "\nDay of Week: " + dayOfWeekList + "\nStart Time: " + startTime + "\nEnd Time: " + endTime;
+        DateTimeFormatter timeFormatter=DateTimeFormatter.ofPattern("h:mm a");
+        DateTimeFormatter dateFormatter=DateTimeFormatter.ofPattern("d MMMM yyyy");
+        String dayOfWeek="";
+        int i=0;
+        for(var day: dayOfWeekList){
+            i++;
+            dayOfWeek+=day.toString().charAt(0)+day.toString().substring(1).toLowerCase();
+            if(i>1 &&i<dayOfWeekList.size()-1){
+                dayOfWeek+=", ";
+            } else if (i==dayOfWeekList.size()-1) {
+                dayOfWeek+=" and ";
+            }
+        }
+        //Sundays from 12PM to 3PM from 1.Sep to 30
+        return  dayOfWeek
+                + " from " + startTime.format(timeFormatter)
+                + " to " + endTime.format(timeFormatter) +
+                ", from " + startDate.format(dateFormatter)
+                + " to " + endDate.format(dateFormatter)
+                ;
     }
 }

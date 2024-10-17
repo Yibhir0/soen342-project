@@ -11,7 +11,7 @@ public class Space {
     }
 
     public String toString() {
-        return "Name: " + name + "\nLocation: " + location.getName();
+        return   location.getName()+", "+name;
     }
 
 }

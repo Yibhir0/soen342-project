@@ -24,7 +24,9 @@ public class Instructor implements User {
         this.password = password;
         this.availableCities = availableCities;
     }
-
+    public String getName() {
+        return name;
+    }
     public void addOffering(OfferingItem offeringItem) {
 
         offeringItems.add(offeringItem);
@@ -39,7 +41,19 @@ public class Instructor implements User {
     }
 
     public String toString() {
-        return "Name: " + name + "\nPhone: " + phone + "\nSpeciality: " + speciality;
+        String availability="";
+        int i=0;
+        for(City city: availableCities){
+            i++;
+            availability+=city.getName();
+            if(i>1 &&i<availableCities.size()-1){
+                availability+=", ";
+            } else if (i==availableCities.size()-1) {
+                availability+=" and ";
+            }
+        }
+        return  name + "(" + phone+ ")"+ "is a " + speciality+ " instructor, available to work in "+availability;
     }
+
 
 }

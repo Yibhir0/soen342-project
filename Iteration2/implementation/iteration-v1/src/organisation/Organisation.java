@@ -28,9 +28,5 @@ public class Organisation {
     }
 
 
-    public String toString() {
-        String result = "Name: " + name + "\nLocation: "  + "\nSpaces:\n";
 
-        return result;
-    }
 }
