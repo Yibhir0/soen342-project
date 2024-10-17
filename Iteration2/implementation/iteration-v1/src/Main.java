@@ -1,21 +1,20 @@
-<<<<<<< HEAD
+
 import dataGenerator.offering.OfferingData;
-import dataGenerator.organisation.OrganisationData;
+
 import offering.Offering;
-=======
-import dataGenerator.space.SpaceData;
+
+
 import offering.Offering;
 import offering.OfferingItem;
 import organisation.Location;
 import organisation.Organisation;
-import organisation.Space;
+
 
 import java.util.ArrayList;
 
 public class Main {
 
     ArrayList<Offering> offerings = OfferingData.generateOfferings();
-
 
     public static void main(String[] args) {
 
