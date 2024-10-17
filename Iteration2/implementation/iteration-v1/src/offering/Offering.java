@@ -30,6 +30,10 @@ public class Offering {
     }
 
     public String toString() {
-        return "Lesson Type: " + lessonType  + "\nSchedule: "+ schedule + "\nOffering Items: " + offeringItemList;
+        String offeringItems="";
+        for(var o:offeringItemList){
+            offeringItems+="\t"+o.toString()+"\n";
+        }
+        return "We offer " + lessonType +" classes in " +space+ " on "+ schedule + "as follows: " + offeringItems;
     }
 }

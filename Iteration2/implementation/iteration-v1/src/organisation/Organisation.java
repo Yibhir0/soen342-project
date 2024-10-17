@@ -26,9 +26,11 @@ public class Organisation {
         this.locations=loc;
     }
 
+<<<<<<< HEAD
     public String toString() {
         String result = "Name: " + name + "\nLocation: "  + "\nSpaces:\n";
+=======
 
-        return result;
-    }
+>>>>>>> dcb1dcfbca5f7d2f6abc6412fecb75d19b519eb4
+
 }

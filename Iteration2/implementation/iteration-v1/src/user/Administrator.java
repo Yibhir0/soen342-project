@@ -14,7 +14,5 @@ public class Administrator implements User {
         }
     }
 
-   public String toString() {
-        return "Name: " + name + "\nPhone: " + phone;
-    }
+
 }

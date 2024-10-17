@@ -28,6 +28,7 @@ public class OfferingItem {
     }
 
     public String toString(){
-        return "Private: " + isPrivate + "\nStart Time: " + startTime + "\nEnd Time: " + endTime;
+        String type= isPrivate?"Private":"Group";
+        return startTime + " - " + endTime +". " + type + "Instructor: " + instructor.getName();
     }
 }
