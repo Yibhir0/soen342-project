@@ -1,27 +1,32 @@
 package organisation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Organisation {
     private String name;
-    private Space[] spaces;
+    private ArrayList<Location> locations;
 
-    public Organisation(String name,  Space[] spaces) {
+    public Organisation(String name) {
         this.name = name;
-        this.spaces = spaces;
+        this.locations=new ArrayList<Location>();
     }
 
     public String getName() {
         return name;
     }
 
-    public Space[] getSpaces() {
-        return spaces;
+    public ArrayList<Location> getLocations() {
+        return locations;
     }
+    public void addLocation(Location location) {
+       locations.add(location);
+    }
+
 
     public String toString() {
         String result = "Name: " + name + "\nLocation: "  + "\nSpaces:\n";
-        for (Space space : spaces) {
-            result += space.toString() + "\n";
-        }
+
         return result;
     }
 }

@@ -4,12 +4,12 @@ import organisation.Space;
 import schedule.Schedule;
 
 import java.time.Duration;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Offering {
     private String lessonType;
-
-    private Duration duration;
 
     private List<OfferingItem> offeringItemList;
 
@@ -17,12 +17,10 @@ public class Offering {
 
     private Schedule  schedule;
 
-    public Offering(String lessonType, Duration duration,
-                    List<OfferingItem> offeringItemList,
+    public Offering(String lessonType,
                     Space space, Schedule schedule) {
         this.lessonType = lessonType;
-        this.duration = duration;
-        this.offeringItemList = offeringItemList;
+        this.offeringItemList = new ArrayList<OfferingItem>();
         this.space = space;
         this.schedule = schedule;
     }
@@ -30,7 +28,8 @@ public class Offering {
     public void addOfferingItem(OfferingItem offeringItem) {
         offeringItemList.add(offeringItem);
     }
+
     public String toString() {
-        return "Lesson Type: " + lessonType + "\nDuration: " + duration + "\nSchedule: "+ schedule + "\nOffering Items: " + offeringItemList;
+        return "Lesson Type: " + lessonType  + "\nSchedule: "+ schedule + "\nOffering Items: " + offeringItemList;
     }
 }
