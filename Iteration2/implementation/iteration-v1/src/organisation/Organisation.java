@@ -22,6 +22,10 @@ public class Organisation {
     public void addLocation(Location location) {
        locations.add(location);
     }
+    //temporary mean to get locations without database
+    public void storeLocations(ArrayList<Location> loc){
+        this.locations=loc;
+    }
 
 
     public String toString() {

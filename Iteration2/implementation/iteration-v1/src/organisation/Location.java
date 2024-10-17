@@ -31,6 +31,11 @@ public class Location {
     public void addSpace(Space space){
         spaces.add(space);
     }
+    //temporary mean to get locations without database
+    public void storeSpaces(ArrayList<Space> s){
+        this.spaces=s;
+    }
+
 
     public String toString() {
         return "Name: " + name + "\nAddress: " + address + "\nCity: " + city.getName();

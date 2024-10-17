@@ -10,19 +10,19 @@ public class SpaceData {
 
 
 
-    public static List<Space> generateSpaces() {
+    public static ArrayList<Space> generateSpaces() {
 
         // to do
-        List<Space> spaces = new ArrayList<>();
+        ArrayList<Space> spaces = new ArrayList<>();
 
         return spaces;
 
     }
 
-    private static List<Location> generateLocations() {
+    public static ArrayList<Location> generateLocations() {
 
         // to do
-        List<Location> locations = new ArrayList<>();
+        ArrayList<Location> locations = new ArrayList<>();
 
         return locations;
 
