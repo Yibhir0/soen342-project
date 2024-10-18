@@ -1,6 +1,3 @@
-
-import dataGenerator.offering.OfferingData;
-
 import dataGenerator.organisation.OrganisationData;
 import offering.Offering;
 
@@ -26,7 +23,7 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    static ArrayList<Offering> offerings = OfferingData.generateOfferings();
+
 
     static Organisation org = OrganisationData.generateOrganizationData();
 
@@ -66,7 +63,7 @@ public static void createOffering(Organisation organisation){
 
     createOfferingItems(offering);
 
-    offerings.add(offering);
+    org.addOffering(offering);
 
 
 
@@ -149,16 +146,39 @@ public static void createOffering(Organisation organisation){
 
 }
 public static void createOfferingItems(Offering offering){
+        Scanner scanner=new Scanner(System.in);
     String input="y";
+
     while(!input.equals("n")||!input.equals("N")||!input.equals("no")||!input.equals("NO")) {
+        LocalTime start;
+        LocalTime end;
+        do {
+            System.out.print("Enter start time (HH:mm):");//check if start time is between offering.Schedule.startTime and  offering.Schedule.endTime
+            start = LocalTime.parse(scanner.next());
+            if(offering.validateTime(start)){
+                System.out.println("time needs to be between "+offering.getSchedule().getStartTime() + "and" + offering.getSchedule().getEndTime());
+            }
+        }while (offering.validateTime(start));
+        do {
+            System.out.print("Enter end time (HH:mm):");
+            end = LocalTime.parse(scanner.next());
+            if(offering.validateTime(end)){
+                System.out.println("time needs to be between "+offering.getSchedule().getStartTime() + "and" + offering.getSchedule().getEndTime());
+            }
+        }while (offering.validateTime(end));
 
-        System.out.print("Add offering item? (y/n):");
-        System.out.print("Enter start time:");//check if start time is between offering.Schedule.startTime and  offering.Schedule.endTime
-        System.out.print("Enter end time:");//same for end time
         System.out.print("Is this offering public? (y/n):");
-        // create OfferingItem(boolean isPrivate, LocalTime startTime, LocalTime endTime)
-        //offering.add(offeringItem)
+        String in =scanner.next();
+        boolean isPrivate=true;
+        if(in.equals("y")){
+            isPrivate=false;
+        }
 
+
+        offering.addOfferingItem(new OfferingItem(isPrivate, start, end,offering));
+
+        System.out.print("continue? (y/n):");
+        input=scanner.next();
     }
 
 }
@@ -211,7 +231,7 @@ private static void mainMenu() {
 
         System.out.println("1. Login as Admin");
         System.out.println("2. Login as Instructor");
-        System.out.println("3. view Offering");
+        System.out.println("3. View Offerings");
         System.out.println("4. Exit");
 
         System.out.print("Enter choice:");
@@ -251,7 +271,7 @@ private static void mainMenu() {
      * Display available offerings to take and offerings already taken by the instructor
      * @param instructor
      */
-    private static void viewAvailableInstructorOffering(Instructor instructor) {
+    private static void viewAvailableOfferingsForInstructors(Instructor instructor) {
 
         ArrayList<OfferingItem> availableInstructorItems = getAvailableOfferings(instructor);
         for (var offeringItem : availableInstructorItems) {
@@ -262,15 +282,21 @@ private static void mainMenu() {
 
 
     /**
-     * this method has to check for offeringItems without instructors!
+     *
      * @param instructor
      * @return
      */
     private static ArrayList<OfferingItem> getAvailableOfferings(Instructor instructor) {
         ArrayList<OfferingItem> availableOfferings = new ArrayList<>();
-        for (var offering : offerings) {
+        for (var offering : org.getOfferings()) {
             if (offering.getLessonType().equals(instructor.getSpeciality())) {
-                availableOfferings.addAll(offering.getOfferingItemList());
+                for(var item:offering.getOfferingItemList()){
+                    if(!item.hasInstructor()){
+                        availableOfferings.add(item);
+                    }
+
+                }
+
             }
         }
         return availableOfferings;
@@ -286,18 +312,22 @@ private static void mainMenu() {
         while (true) {
             System.out.println("1. View Available Offering");
             System.out.println("2. Select Offering");
-            System.out.println("3. Exit");
+            System.out.println("3. View your lessons:");
+            System.out.println("4. Exit");
 
             System.out.print("Enter choice:");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    viewAvailableInstructorOffering(instructor);
+                    viewAvailableOfferingsForInstructors(instructor);
                     break;
                 case 2:
                     selectOffering(instructor);
                     break;
                 case 3:
+                    instructor.displayOfferingItems();
+                    break;
+                case 4:
                     System.exit(0);
                     break;
                 default:
@@ -315,7 +345,7 @@ private static void mainMenu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter offering id: [0,1,2...]");
 
-        viewAvailableInstructorOffering(instructor);
+        viewAvailableOfferingsForInstructors(instructor);
 
         int offeringId = scanner.nextInt();
 
@@ -339,11 +369,11 @@ private static void mainMenu() {
 
 
     /**
-     * view all offerings
+     * view all offerings that are taken by an Instructor (public can't see offering not taken)
      */
     private static void viewOffering() {
-        for (var offering : offerings) {
-            System.out.println(offering);
+        for (var offering : org.getOfferings()) {
+            offering.viewOfferingsWithInstructor();
         }
     }
 
