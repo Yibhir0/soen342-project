@@ -29,7 +29,7 @@ public class OrganisationData {
         //generating location and space data (temporary until database is implemented)
         organisation.setLocations(generateLocations());
         ArrayList<Location> locations = organisation.getLocations();
-        organisation.setOfferings(generateOfferings());
+        organisation.setOfferings(generateOfferings(instructors));
 
         for(var loc:locations){
             ArrayList<Space> generatedSpaces= generateSpaces();
@@ -76,11 +76,9 @@ public class OrganisationData {
                 toronto));
 
     }
-    public static ArrayList<OfferingItem> generateOfferingItems(){
+    public static ArrayList<OfferingItem> generateOfferingItems(ArrayList<Instructor> instructors){
 
         ArrayList<OfferingItem> offeringItems = new ArrayList<>();
-
-        ArrayList<Instructor> instructors = InstructorData.generateInstructors();
 
         // swim
         OfferingItem item1 = new OfferingItem( false, LocalTime.of(9,0), LocalTime.of(10,0));
@@ -97,12 +95,12 @@ public class OrganisationData {
         return offeringItems;
     }
 
-    public static ArrayList<Offering> generateOfferings() {
+    public static ArrayList<Offering> generateOfferings(ArrayList<Instructor> instructors) {
 
         ArrayList<Offering> offerings = new ArrayList<>();
 
         // offeringItems (swimming and yoga)
-        ArrayList<OfferingItem> offeringItems = generateOfferingItems();
+        ArrayList<OfferingItem> offeringItems = generateOfferingItems(instructors);
 
         ArrayList<Schedule> schedules = ScheduleData.generateSchedules();
         ArrayList<Space> spaces = OrganisationData.generateSpaces();

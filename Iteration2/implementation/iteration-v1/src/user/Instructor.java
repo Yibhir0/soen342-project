@@ -13,7 +13,7 @@ public class Instructor implements User {
     private String speciality;
     private String password;
 
-    private List<OfferingItem> offeringItems = new ArrayList<OfferingItem>();
+    private ArrayList<OfferingItem> offeringItems = new ArrayList<OfferingItem>();
 
     private List<City> availableCities = new ArrayList<City>();
 

@@ -274,6 +274,10 @@ private static void mainMenu() {
     private static void viewAvailableOfferingsForInstructors(Instructor instructor) {
 
         ArrayList<OfferingItem> availableInstructorItems = getAvailableOfferings(instructor);
+        if(availableInstructorItems.isEmpty()){
+            System.out.println("No available Offerings.");
+            return;
+        }
         for (var offeringItem : availableInstructorItems) {
             System.out.println(offeringItem);
         }
@@ -312,7 +316,7 @@ private static void mainMenu() {
         while (true) {
             System.out.println("1. View Available Offering");
             System.out.println("2. Select Offering");
-            System.out.println("3. View your lessons:");
+            System.out.println("3. View your lessons");
             System.out.println("4. Exit");
 
             System.out.print("Enter choice:");
