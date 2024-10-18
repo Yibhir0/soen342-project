@@ -47,4 +47,12 @@ public class Schedule {
                 + " to " + endDate.format(dateFormatter)
                 ;
     }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
 }
