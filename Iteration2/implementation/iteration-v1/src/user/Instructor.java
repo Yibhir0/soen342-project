@@ -40,6 +40,11 @@ public class Instructor implements User {
             return 0;
         }
     }
+    public void displayOfferingItems(){
+        for(var o:offeringItems){
+            System.out.println(o.toStringForInstructors());
+        }
+    }
 
     public String toString() {
         String availability="";

@@ -3,7 +3,6 @@ package offering;
 import organisation.Space;
 import schedule.Schedule;
 
-import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,10 +39,31 @@ public class Offering {
         for(var o:offeringItemList){
             offeringItems+="\t"+o.toString()+"\n";
         }
-        return "We offer " + lessonType +" classes in " +space+ " on "+ schedule + "as follows: \n" + offeringItems;
+        return "We offer " + lessonType +" classes in " +space+ " on "+ schedule + " as follows: \n" + offeringItems;
     }
 
     public Collection<? extends OfferingItem> getOfferingItemList() {
         return offeringItemList;
+    }
+
+    public void viewOfferingsWithInstructor() {
+        String offeringItems="";
+        for(var o:offeringItemList){
+            if (o.hasInstructor()) {
+                offeringItems += "\t" + o.toString() + "\n";
+            }
+        }
+        System.out.println( "We offer " + lessonType +" classes in " +space+ " on "+ schedule + " as follows: \n" + offeringItems);
+    }
+
+    public Space getSpace() {
+        return space;
+    }
+    public boolean validateTime(LocalTime t){
+        return t.isAfter(schedule.getStartTime())&&t.isBefore(schedule.getEndTime());
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
     }
 }

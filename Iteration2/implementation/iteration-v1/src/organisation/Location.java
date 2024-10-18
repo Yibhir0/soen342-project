@@ -32,7 +32,7 @@ public class Location {
         spaces.add(space);
     }
     //temporary mean to get locations without database
-    public void storeSpaces(ArrayList<Space> s){
+    public void setSpaces(ArrayList<Space> s){
         this.spaces=s;
     }
 
