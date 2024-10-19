@@ -1,9 +1,5 @@
-package schedule;
+package organisation.schedule;
 
-import organisation.City;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

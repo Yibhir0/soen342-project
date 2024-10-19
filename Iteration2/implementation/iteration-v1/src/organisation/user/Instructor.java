@@ -1,11 +1,11 @@
-package user;
+package organisation.user;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import offering.OfferingItem;
-import organisation.City;
+import organisation.offering.OfferingItem;
+import organisation.Locations.City;
 
 public class Instructor implements User {
     private final String name;

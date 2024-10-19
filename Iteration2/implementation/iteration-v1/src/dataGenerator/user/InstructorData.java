@@ -1,8 +1,8 @@
 package dataGenerator.user;
 
 import dataGenerator.organisation.OrganisationData;
-import organisation.City;
-import user.Instructor;
+import organisation.Locations.City;
+import organisation.user.Instructor;
 
 import java.util.ArrayList;
 import java.util.List;

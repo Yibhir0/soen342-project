@@ -1,7 +1,8 @@
 package organisation;
 
-import offering.Offering;
-import user.Instructor;
+import organisation.offering.Offering;
+import organisation.Locations.Location;
+import organisation.user.Instructor;
 
 import java.util.ArrayList;
 

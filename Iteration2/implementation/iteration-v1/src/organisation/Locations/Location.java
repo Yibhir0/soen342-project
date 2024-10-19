@@ -1,4 +1,4 @@
-package organisation;
+package organisation.Locations;
 
 import java.util.ArrayList;
 

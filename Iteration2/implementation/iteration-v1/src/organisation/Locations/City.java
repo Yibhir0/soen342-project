@@ -1,4 +1,4 @@
-package organisation;
+package organisation.Locations;
 
 public class City {
     private String name;

@@ -1,16 +1,16 @@
 import dataGenerator.organisation.OrganisationData;
-import offering.Offering;
+import organisation.offering.Offering;
 
 
-import organisation.Space;
-import offering.OfferingItem;
-import organisation.Location;
+import organisation.Locations.Space;
+import organisation.offering.OfferingItem;
+import organisation.Locations.Location;
 import organisation.Organisation;
-import schedule.DayOfWeek;
-import schedule.Schedule;
-import user.Administrator;
-import user.Instructor;
-import user.User;
+import organisation.schedule.DayOfWeek;
+import organisation.schedule.Schedule;
+import organisation.user.Administrator;
+import organisation.user.Instructor;
+import organisation.user.User;
 
 
 import java.time.LocalDate;
@@ -49,17 +49,17 @@ public static void createOffering(Organisation organisation){
         return;
     }
 
-    //create schedule
+    //create organisation.schedule
     Schedule schedule = createSchedule();
 
 
 
     //enter lesson type
     String lessonType = createLessonType();
-    //create Offering(String lessonType,Space space, Schedule schedule)
+    //create Offering(String lessonType,Space space, Schedule organisation.schedule)
     Offering offering = new Offering(lessonType,space,schedule);
 
-    //createOfferingItems(Offering offering)
+    //createOfferingItems(Offering organisation.offering)
 
     createOfferingItems(offering);
 
@@ -78,7 +78,7 @@ public static void createOffering(Organisation organisation){
 
 
     /**
-     * Create a schedule (we are assuming the user does not make mistakes)
+     * Create a organisation.schedule (we are assuming the organisation.user does not make mistakes)
      * @return
  */
     private static Schedule createSchedule() {
@@ -153,7 +153,7 @@ public static void createOfferingItems(Offering offering){
         LocalTime start;
         LocalTime end;
         do {
-            System.out.print("Enter start time (HH:mm):");//check if start time is between offering.Schedule.startTime and  offering.Schedule.endTime
+            System.out.print("Enter start time (HH:mm):");//check if start time is between organisation.offering.Schedule.startTime and  organisation.offering.Schedule.endTime
             start = LocalTime.parse(scanner.next());
             if(offering.validateTime(start)){
                 System.out.println("time needs to be between "+offering.getSchedule().getStartTime() + "and" + offering.getSchedule().getEndTime());
@@ -167,7 +167,7 @@ public static void createOfferingItems(Offering offering){
             }
         }while (offering.validateTime(end));
 
-        System.out.print("Is this offering public? (y/n):");
+        System.out.print("Is this organisation.offering public? (y/n):");
         String in =scanner.next();
         boolean isPrivate=true;
         if(in.equals("y")){
@@ -341,13 +341,13 @@ private static void mainMenu() {
     }
 
     /**
-     * Select an offering
+     * Select an organisation.offering
      * @param instructor
      */
     private static void selectOffering(Instructor instructor) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter offering id: [0,1,2...]");
+        System.out.println("Enter organisation.offering id: [0,1,2...]");
 
         viewAvailableOfferingsForInstructors(instructor);
 
@@ -366,14 +366,14 @@ private static void mainMenu() {
 
         }
         catch(Exception e){
-            System.out.println("Invalid offering id");
+            System.out.println("Invalid organisation.offering id");
         }
 
     }
 
 
     /**
-     * view all offerings that are taken by an Instructor (public can't see offering not taken)
+     * view all offerings that are taken by an Instructor (public can't see organisation.offering not taken)
      */
     private static void viewOffering() {
         for (var offering : org.getOfferings()) {

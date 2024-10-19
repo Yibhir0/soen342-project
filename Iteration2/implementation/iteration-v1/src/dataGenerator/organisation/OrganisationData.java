@@ -2,14 +2,14 @@ package dataGenerator.organisation;
 
 import dataGenerator.schedule.ScheduleData;
 import dataGenerator.user.InstructorData;
-import offering.Offering;
-import offering.OfferingItem;
-import organisation.City;
-import organisation.Location;
+import organisation.offering.Offering;
+import organisation.offering.OfferingItem;
+import organisation.Locations.City;
+import organisation.Locations.Location;
 import organisation.Organisation;
-import organisation.Space;
-import schedule.Schedule;
-import user.Instructor;
+import organisation.Locations.Space;
+import organisation.schedule.Schedule;
+import organisation.user.Instructor;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -119,11 +119,11 @@ public class OrganisationData {
     }
 
 //    public Offering(String lessonType,
-//                    Space space, Schedule schedule) {
+//                    Space space, Schedule organisation.schedule) {
 //        this.lessonType = lessonType;
 //        this.offeringItemList = new ArrayList<OfferingItem>();
 //        this.space = space;
-//        this.schedule = schedule;
+//        this.organisation.schedule = organisation.schedule;
 //    }
 
 

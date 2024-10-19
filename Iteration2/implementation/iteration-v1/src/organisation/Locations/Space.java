@@ -1,4 +1,6 @@
-package organisation;
+package organisation.Locations;
+
+import organisation.Locations.Location;
 
 public class Space {
 

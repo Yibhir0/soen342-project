@@ -1,4 +1,4 @@
-package user;
+package organisation.user;
 
 public class Administrator implements User {
     private final String name = "admin";

@@ -1,7 +1,6 @@
-package offering;
+package organisation.offering;
 
-import organisation.Space;
-import user.Instructor;
+import organisation.user.Instructor;
 
 import java.time.LocalTime;
 

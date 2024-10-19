@@ -1,7 +1,7 @@
-package offering;
+package organisation.offering;
 
-import organisation.Space;
-import schedule.Schedule;
+import organisation.Locations.Space;
+import organisation.schedule.Schedule;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

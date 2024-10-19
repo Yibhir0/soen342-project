@@ -1,7 +1,7 @@
 package dataGenerator.schedule;
 
-import schedule.DayOfWeek;
-import schedule.Schedule;
+import organisation.schedule.DayOfWeek;
+import organisation.schedule.Schedule;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
