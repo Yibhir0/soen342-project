@@ -46,15 +46,22 @@ public class Offering {
         return offeringItemList;
     }
 
-    public void viewOfferingsWithInstructor() {
-        String offeringItems="";
+    public void printOfferingsForPublic() {
+        System.out.println( "We offer " + lessonType +" classes in " +space+ " on "+ schedule + " as follows:");
         for(var o:offeringItemList){
             if (o.hasInstructor()) {
-                offeringItems += "\t" + o.toString() + "\n";
+                System.out.println("\t" + o.toStringForPublic() );
             }
         }
-        System.out.println( "We offer " + lessonType +" classes in " +space+ " on "+ schedule + " as follows: \n" + offeringItems);
     }
+    public void printOfferingsForAdmin() {
+        System.out.println( "We offer " + lessonType +" classes in " +space+ " on "+ schedule + " as follows:");
+        for(var o:offeringItemList) {
+
+            System.out.println("\t" + o.toStringForAdmin());
+        }
+    }
+
 
     public Space getSpace() {
         return space;
