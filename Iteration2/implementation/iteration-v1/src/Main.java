@@ -9,6 +9,7 @@ import organisation.Organisation;
 import organisation.schedule.DayOfWeek;
 import organisation.schedule.Schedule;
 import organisation.user.Administrator;
+import organisation.user.Client;
 import organisation.user.Instructor;
 import organisation.user.User;
 
@@ -213,7 +214,7 @@ public static int logInAsAdmin(){
                     createOffering(org);
                     break;
                 case 2:
-                    viewOffering();
+                    org.viewAllOfferingsForAdmin();
                     break;
                 case 3:
                     System.exit(0);
@@ -231,8 +232,10 @@ private static void mainMenu() {
 
         System.out.println("1. Login as Admin");
         System.out.println("2. Login as Instructor");
-        System.out.println("3. View Offerings");
-        System.out.println("4. Exit");
+        System.out.println("3. Login as Client");
+        System.out.println("4. View Offerings");
+        System.out.println("5. Register");
+        System.out.println("6. Exit");
 
         System.out.print("Enter choice:");
         int choice = scanner.nextInt();
@@ -254,9 +257,21 @@ private static void mainMenu() {
                 }
                 break;
             case 3:
-                viewOffering();
+               Client client=logInAsClient();
+                if (client  != null) {
+                   clientMenu(client);
+                } else{
+                    System.out.println("Invalid username or password ");
+                }
                 break;
             case 4:
+                org.viewOfferingsForPublic();
+                break;
+            case 5:
+               //register as an instructor
+                //register as a client
+                break;
+            case 6:
                 System.exit(0);
                 break;
             default:
@@ -267,44 +282,38 @@ private static void mainMenu() {
 }
 
 
-    /**
-     * Display available offerings to take and offerings already taken by the instructor
-     * @param instructor
-     */
-    private static void viewAvailableOfferingsForInstructors(Instructor instructor) {
 
-        ArrayList<OfferingItem> availableInstructorItems = getAvailableOfferings(instructor);
-        if(availableInstructorItems.isEmpty()){
-            System.out.println("No available Offerings.");
-            return;
-        }
-        for (var offeringItem : availableInstructorItems) {
-            System.out.println(offeringItem);
-        }
+    private static void clientMenu(Client client) {
 
-    }
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. View Available Offering");
+            System.out.println("2. Select Offering");
+            System.out.println("3. View booked Offerings");
+            System.out.println("4. Exit");
 
-
-    /**
-     *
-     * @param instructor
-     * @return
-     */
-    private static ArrayList<OfferingItem> getAvailableOfferings(Instructor instructor) {
-        ArrayList<OfferingItem> availableOfferings = new ArrayList<>();
-        for (var offering : org.getOfferings()) {
-            if (offering.getLessonType().equals(instructor.getSpeciality())) {
-                for(var item:offering.getOfferingItemList()){
-                    if(!item.hasInstructor()){
-                        availableOfferings.add(item);
-                    }
-
-                }
-
+            System.out.print("Enter choice:");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    org.viewOfferingsForPublic();
+                    break;
+                case 2:
+                    //selectOffering(client);
+                    break;
+                case 3:
+                    client.printBookedOfferings();
+                    break;
+                case 4:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice");
             }
         }
-        return availableOfferings;
     }
+
+
 
     /**
      * Instructor menu
@@ -323,7 +332,7 @@ private static void mainMenu() {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    viewAvailableOfferingsForInstructors(instructor);
+                    org.viewAvailableOfferingsForInstructors(instructor);
                     break;
                 case 2:
                     selectOffering(instructor);
@@ -349,11 +358,11 @@ private static void mainMenu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter organisation.offering id: [0,1,2...]");
 
-        viewAvailableOfferingsForInstructors(instructor);
+        org.viewAvailableOfferingsForInstructors(instructor);
 
         int offeringId = scanner.nextInt();
 
-        ArrayList<OfferingItem> offeringItems = getAvailableOfferings(instructor);
+        ArrayList<OfferingItem> offeringItems = org.getAvailableOfferings(instructor);
 
         try{
 
@@ -372,14 +381,7 @@ private static void mainMenu() {
     }
 
 
-    /**
-     * view all offerings that are taken by an Instructor (public can't see organisation.offering not taken)
-     */
-    private static void viewOffering() {
-        for (var offering : org.getOfferings()) {
-            offering.viewOfferingsWithInstructor();
-        }
-    }
+
 
     /**
      * Log in as an instructor
@@ -399,6 +401,25 @@ private static void mainMenu() {
             if (instructor.login(username, password) == 1) {
                 System.out.println("Login successful");
                 return instructor;
+            }
+        }
+        System.out.println("Account Not Found");
+        return null;
+    }
+
+    private static Client logInAsClient () {
+        ArrayList<Client> clients = org.getClients();
+
+        System.out.println("Enter username:");
+        Scanner scanner = new Scanner(System.in);
+        String username = scanner.nextLine();
+        System.out.println("Enter password:");
+        String password = scanner.nextLine();
+
+        for (Client client : clients) {
+            if (client.login(username, password) == 1) {
+                System.out.println("Login successful");
+                return client;
             }
         }
         System.out.println("Account Not Found");
