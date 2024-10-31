@@ -10,7 +10,7 @@ public class OfferingItem {
     private boolean isPrivate=false ;
     private LocalTime startTime;
 
-    private boolean isAvailable = false;
+    private boolean isAvailable = true;
 
     private LocalTime endTime;
     private Instructor instructor;
@@ -74,7 +74,7 @@ public boolean isAvailable(){
     //doesn't display instructor name
     public String toStringForInstructors(){
         String type= isPrivate?"Private":"Group";
-        return offering.getSpace() + " - " + endTime +". " + type;
+        return offering.getSpace()+". " + startTime + " - " + endTime +". " + type+".";
     }
     //shows client name
     public String toStringForAdmin(){
@@ -84,5 +84,6 @@ public boolean isAvailable(){
         }
         return this.toString()+booking;
     }
+
 
 }

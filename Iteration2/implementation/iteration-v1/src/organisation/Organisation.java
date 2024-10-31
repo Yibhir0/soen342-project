@@ -85,13 +85,14 @@ public class Organisation {
      */
    public void viewAvailableOfferingsForInstructors(Instructor instructor) {
 
-        ArrayList<OfferingItem> availableInstructorItems = getAvailableOfferings(instructor);
+        ArrayList<OfferingItem> availableInstructorItems = getAvailableOfferingsForInstructors(instructor);
         if(availableInstructorItems.isEmpty()){
             System.out.println("No available Offerings.");
             return;
         }
+        int i=0;
         for (var offeringItem : availableInstructorItems) {
-            System.out.println(offeringItem);
+            System.out.println(i++ +": "+ offeringItem.toStringForInstructors());
         }
 
     }
@@ -100,7 +101,7 @@ public class Organisation {
      * @param instructor
      * @return
      */
-    public ArrayList<OfferingItem> getAvailableOfferings(Instructor instructor) {
+    public ArrayList<OfferingItem> getAvailableOfferingsForInstructors(Instructor instructor) {
         ArrayList<OfferingItem> availableOfferings = new ArrayList<>();
         for (var offering : getOfferings()) {
             if (offering.getLessonType().equals(instructor.getSpeciality())) {
@@ -115,5 +116,20 @@ public class Organisation {
         }
         return availableOfferings;
     }
+
+    //Gets all available offerings that have an instructor
+    public ArrayList<OfferingItem> getAvailableOfferingsForClient() {
+        ArrayList<OfferingItem> availableOfferings = new ArrayList<>();
+        for (var offering : getOfferings()) {
+                for(var item:offering.getOfferingItemList()){
+                    if(item.hasInstructor()&&item.isAvailable()){
+                        availableOfferings.add(item);
+                    }
+                }
+        }
+        return availableOfferings;
+    }
+
+
 
 }

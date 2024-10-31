@@ -91,6 +91,9 @@ public class OrganisationData {
         item2.addInstructor(instructors.get(1));
         instructors.get(1).addOffering(item2);
         offeringItems.add(item2);
+        //no instructor
+        OfferingItem item3 = new OfferingItem( true, LocalTime.of(11,0), LocalTime.of(11,30));
+        offeringItems.add(item3);
 
         return offeringItems;
     }
@@ -115,6 +118,10 @@ public class OrganisationData {
 
         offerings.get(1).addOfferingItem(offeringItems.get(1));
         offeringItems.get(1).setOffering(offerings.get(1));
+
+        offerings.get(1).addOfferingItem(offeringItems.get(2));
+        offeringItems.get(2).setOffering(offerings.get(1));
+
         return offerings;
     }
 

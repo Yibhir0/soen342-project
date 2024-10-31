@@ -288,7 +288,7 @@ private static void mainMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("1. View Available Offering");
-            System.out.println("2. Select Offering");
+            System.out.println("2. Book Offering");
             System.out.println("3. View booked Offerings");
             System.out.println("4. Exit");
 
@@ -299,7 +299,7 @@ private static void mainMenu() {
                     org.viewOfferingsForPublic();
                     break;
                 case 2:
-                    //selectOffering(client);
+                    bookOffering(client);
                     break;
                 case 3:
                     client.printBookedOfferings();
@@ -314,7 +314,25 @@ private static void mainMenu() {
     }
 
 
+public static void bookOffering(Client client){
+        ArrayList<OfferingItem> availableOfferingItems=org.getAvailableOfferingsForClient();
 
+        org.viewOfferingsForPublic();//there is no index
+         System.out.println("Enter index of Offering Item: ");
+         Scanner s=new Scanner(System.in);
+         int index= s.nextInt();
+            try{
+                OfferingItem bookedOffering=availableOfferingItems.get(index);
+                client.bookOffering(bookedOffering);
+                bookedOffering.book(client);
+                System.out.println("Offering booked successfully");
+
+            }
+            catch(Exception e){
+                System.out.println("Invalid Input");
+            }
+
+}
     /**
      * Instructor menu
      * @param instructor
@@ -362,7 +380,7 @@ private static void mainMenu() {
 
         int offeringId = scanner.nextInt();
 
-        ArrayList<OfferingItem> offeringItems = org.getAvailableOfferings(instructor);
+        ArrayList<OfferingItem> offeringItems = org.getAvailableOfferingsForInstructors(instructor);
 
         try{
 
