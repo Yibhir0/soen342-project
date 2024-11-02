@@ -56,7 +56,7 @@ public class Organisation {
     public ArrayList<Client> getClients() {
         return clients;
     }
-    public void setClients(ArrayList<Client> Clients) {
+    public void setClients(ArrayList<Client> clients) {
         this.clients = clients;
     }
 
@@ -73,9 +73,16 @@ public class Organisation {
      * view all offerings
      */
     public  void viewAllOfferingsForAdmin() {
+
+        int i=0;
         for (var offering :offerings) {
+            System.out.println(i++ +": ");
             offering.printOfferingsForAdmin();
         }
+    }
+
+    public void addInstructor(Instructor instructor) {
+        instructors.add(instructor);
     }
 
 
@@ -96,6 +103,8 @@ public class Organisation {
         }
 
     }
+
+
     /**
      *
      * @param instructor
@@ -128,6 +137,23 @@ public class Organisation {
                 }
         }
         return availableOfferings;
+    }
+
+    /**
+     * add a client to the organisation
+     * @param client
+     */
+    public void addClient(Client client) {
+        clients.add(client);
+    }
+
+
+    /**
+     * remove an offering from the organisation
+     * @param offering
+     */
+    public void removeOffering(Offering offering) {
+        offerings.remove(offering);
     }
 
 

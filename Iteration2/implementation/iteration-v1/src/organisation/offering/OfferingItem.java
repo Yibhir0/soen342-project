@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 public class OfferingItem {
 
-    private boolean isPrivate=false ;
+    private boolean isPrivate = false ;
     private LocalTime startTime;
 
     private boolean isAvailable = true;
@@ -15,7 +15,6 @@ public class OfferingItem {
     private LocalTime endTime;
     private Instructor instructor;
     private Offering offering;
-    private Client client;
 
     public OfferingItem(boolean isPrivate, LocalTime startTime, LocalTime endTime) {
         this.isPrivate = isPrivate;
@@ -38,18 +37,16 @@ public class OfferingItem {
     public void setOffering(Offering offer){
         this.offering=offer;
     }
-public boolean book(Client client){
+public boolean book(){
         if(!isAvailable){
             return false;
         }
         else{
-            this.client=client;
             isAvailable=false;
             return true;
         }
 }
 public void removeBooking(){
-        this.client=null;
         this.isAvailable=true;
 }
 public boolean isAvailable(){
@@ -77,13 +74,7 @@ public boolean isAvailable(){
         return offering.getSpace()+". " + startTime + " - " + endTime +". " + type+".";
     }
     //shows client name
-    public String toStringForAdmin(){
-        String booking="";
-        if(client!=null){
-            booking=". booked by:"+client.getUsername();
-        }
-        return this.toString()+booking;
-    }
+
 
 
 }

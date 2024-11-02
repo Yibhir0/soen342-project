@@ -25,6 +25,10 @@ public class Offering {
         this.schedule = schedule;
     }
 
+    public void removeOfferingItem(OfferingItem offeringItem) {
+        this.offeringItemList.remove(offeringItem);
+    }
+
     public void addOfferingItem(OfferingItem offeringItem) {
         offeringItemList.add(offeringItem);
     }
@@ -42,7 +46,7 @@ public class Offering {
         return "We offer " + lessonType +" classes in " +space+ " on "+ schedule + " as follows: \n" + offeringItems;
     }
 
-    public Collection<? extends OfferingItem> getOfferingItemList() {
+    public List<OfferingItem> getOfferingItemList() {
         return offeringItemList;
     }
 
@@ -55,10 +59,17 @@ public class Offering {
         }
     }
     public void printOfferingsForAdmin() {
+
         System.out.println( "We offer " + lessonType +" classes in " +space+ " on "+ schedule + " as follows:");
         for(var o:offeringItemList) {
+            System.out.println("\t" + o);
+        }
+    }
 
-            System.out.println("\t" + o.toStringForAdmin());
+    public void printOfferingItems(){
+        int i = 0;
+        for(var o:offeringItemList){
+            System.out.println(i++ + ":" + o);
         }
     }
 
@@ -73,4 +84,6 @@ public class Offering {
     public Schedule getSchedule() {
         return schedule;
     }
+
+
 }

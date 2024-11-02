@@ -1,7 +1,9 @@
 package dataGenerator.organisation;
 
 import dataGenerator.schedule.ScheduleData;
+import dataGenerator.user.ClientData;
 import dataGenerator.user.InstructorData;
+import organisation.offering.Booking;
 import organisation.offering.Offering;
 import organisation.offering.OfferingItem;
 import organisation.Locations.City;
@@ -9,11 +11,14 @@ import organisation.Locations.Location;
 import organisation.Organisation;
 import organisation.Locations.Space;
 import organisation.schedule.Schedule;
+import organisation.user.Client;
 import organisation.user.Instructor;
 
+import java.awt.print.Book;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class OrganisationData {
 
@@ -26,10 +31,30 @@ public class OrganisationData {
         ArrayList<Instructor> instructors = InstructorData.generateInstructors();
         organisation.setInstructors(instructors);
 
+
+        ArrayList<Client> clients = ClientData.generateClients();
+        organisation.setClients(clients);
+
         //generating location and space data (temporary until database is implemented)
         organisation.setLocations(generateLocations());
         ArrayList<Location> locations = organisation.getLocations();
         organisation.setOfferings(generateOfferings(instructors));
+
+
+        // Assign offering item to client
+
+        OfferingItem oItem = organisation.getOfferings().get(0).getOfferingItemList().get(0);
+
+        boolean isBooked = oItem.book();
+
+        if(isBooked){
+            Booking booking = new Booking(oItem);
+
+            clients.get(0).bookOffering(booking);
+        }
+        else{
+            System.out.println("Offering is not available");
+        }
 
         for(var loc:locations){
             ArrayList<Space> generatedSpaces= generateSpaces();

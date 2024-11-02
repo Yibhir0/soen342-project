@@ -1,4 +1,6 @@
 import dataGenerator.organisation.OrganisationData;
+import organisation.Locations.City;
+import organisation.offering.Booking;
 import organisation.offering.Offering;
 
 
@@ -205,6 +207,7 @@ public static int logInAsAdmin(){
         while(true){
             System.out.println("1. Create Offering");
             System.out.println("2. View Offering");
+            System.out.println("3. Cancel Offering");
             System.out.println("3. Exit");
 
             System.out.print("Enter choice:");
@@ -217,6 +220,9 @@ public static int logInAsAdmin(){
                     org.viewAllOfferingsForAdmin();
                     break;
                 case 3:
+                    adminCancelOffering();
+                    break;
+                case 4:
                     System.exit(0);
                     break;
                 default:
@@ -226,7 +232,9 @@ public static int logInAsAdmin(){
         }
     }
 
-private static void mainMenu() {
+
+
+    private static void mainMenu() {
     Scanner scanner = new Scanner(System.in);
     while (true) {
 
@@ -234,8 +242,9 @@ private static void mainMenu() {
         System.out.println("2. Login as Instructor");
         System.out.println("3. Login as Client");
         System.out.println("4. View Offerings");
-        System.out.println("5. Register");
-        System.out.println("6. Exit");
+        System.out.println("5. Register as Client");
+        System.out.println("6. Register as Instructor");
+        System.out.println("7. Exit");
 
         System.out.print("Enter choice:");
         int choice = scanner.nextInt();
@@ -268,10 +277,12 @@ private static void mainMenu() {
                 org.viewOfferingsForPublic();
                 break;
             case 5:
-               //register as an instructor
-                //register as a client
+                registerAsClient();
                 break;
             case 6:
+                registerAsInstructor();
+                break;
+            case 7:
                 System.exit(0);
                 break;
             default:
@@ -323,9 +334,13 @@ public static void bookOffering(Client client){
          int index= s.nextInt();
             try{
                 OfferingItem bookedOffering=availableOfferingItems.get(index);
-                client.bookOffering(bookedOffering);
-                bookedOffering.book(client);
-                System.out.println("Offering booked successfully");
+                Booking booking = new Booking(bookedOffering);
+                client.bookOffering(booking);
+               if(bookedOffering.book()) {
+                System.out.println("Offering booked successfully");}
+               else{
+                   System.out.println("Offering already booked");
+               }
 
             }
             catch(Exception e){
@@ -426,6 +441,7 @@ public static void bookOffering(Client client){
     }
 
     private static Client logInAsClient () {
+
         ArrayList<Client> clients = org.getClients();
 
         System.out.println("Enter username:");
@@ -443,6 +459,106 @@ public static void bookOffering(Client client){
         System.out.println("Account Not Found");
         return null;
     }
+
+
+    // register for client and instructor
+    public static void registerAsInstructor(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter username:");
+        String username = scanner.nextLine();
+        System.out.println("Enter password:");
+        String password = scanner.nextLine();
+        System.out.println("Enter Phone Number:");
+        String phone = scanner.nextLine();
+        System.out.println("Enter Speciality:");
+        String speciality = scanner.nextLine();
+        List<City> cities = OrganisationData.generateCities();
+        Instructor instructor = new Instructor(username, password,phone,speciality,cities);
+        org.addInstructor(instructor);
+        System.out.println("Login successful");
+        instructorMenu(instructor);
+    }
+
+    public static void registerAsClient(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter username:");
+        String username = scanner.nextLine();
+        System.out.println("Enter password:");
+        String password = scanner.nextLine();
+        Client client = new Client(username, password);
+        org.addClient(client);
+        System.out.println("Login successful");
+        clientMenu(client);
+    }
+
+
+    private static void adminCancel(){
+        System.out.println("1. Cancel Offering");
+        System.out.println("2. Cancel Offering Item");
+        System.out.print("Enter choice:");
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                adminCancel();
+                break;
+            case 2:
+                adminCancelOfferingItem();
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
+
+
+    // admin cancel offering
+    private static void adminCancelOffering() {
+
+        System.out.println("Choose offering you want to cancel");
+        int offeringId = getIndexOfOfferingItem();
+        org.removeOffering(org.getOfferings().get(offeringId));
+        System.out.println("Offering cancelled successfully");
+
+    }
+
+    private static int getIndexOfOfferingItem(){
+        org.viewAllOfferingsForAdmin();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter organisation.offering id: [0,1,2...]");
+        int offeringId = scanner.nextInt();
+        return offeringId;
+    }
+
+    private static void adminCancelOfferingItem(){
+        System.out.println("Choose offering item you want to cancel from");
+        int offeringId = getIndexOfOfferingItem();
+        Offering offering = org.getOfferings().get(offeringId);
+        offering.printOfferingItems();
+        System.out.println("Enter organisation.offering item id: [0,1,2...]");
+        Scanner scanner = new Scanner(System.in);
+        int offeringItemId = scanner.nextInt();
+
+        OfferingItem offeringItem = offering.getOfferingItemList().get(offeringItemId);
+
+        offering.removeOfferingItem(offeringItem);
+
+        System.out.println("Offering item cancelled successfully");
+    }
+
+
+    // admin cancel offering item
+
+
+
+    // cancel booking by client and admin
+
+
+
+
+
+
+
+
 
 
 }
