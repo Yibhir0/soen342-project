@@ -220,7 +220,7 @@ public static int logInAsAdmin(){
                     org.viewAllOfferingsForAdmin();
                     break;
                 case 3:
-                    adminCancelOffering();
+                    adminCancel();
                     break;
                 case 4:
                     System.exit(0);
@@ -500,7 +500,7 @@ public static void bookOffering(Client client){
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
-                adminCancel();
+                adminCancelOffering();
                 break;
             case 2:
                 adminCancelOfferingItem();
