@@ -208,7 +208,7 @@ public static int logInAsAdmin(){
             System.out.println("1. Create Offering");
             System.out.println("2. View Offering");
             System.out.println("3. Cancel Offering");
-            System.out.println("3. Exit");
+            System.out.println("4. Exit");
 
             System.out.print("Enter choice:");
             int choice=scanner.nextInt();
