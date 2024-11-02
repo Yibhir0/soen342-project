@@ -10,8 +10,11 @@ public class Booking {
 
     public String toString(){
 
-        return offeringItem.toString();
+        return offeringItem.getSpace().toString()+". "+offeringItem.toString();
 
+    }
+    public void removeOfferingItem(){
+         offeringItem.removeBooking();
     }
 
 

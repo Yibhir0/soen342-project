@@ -1,5 +1,6 @@
 package organisation.offering;
 
+import organisation.Locations.Space;
 import organisation.user.Client;
 import organisation.user.Instructor;
 
@@ -45,6 +46,9 @@ public boolean book(){
             isAvailable=false;
             return true;
         }
+}
+public Space getSpace(){
+        return offering.getSpace();
 }
 public void removeBooking(){
         this.isAvailable=true;

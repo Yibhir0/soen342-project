@@ -208,7 +208,7 @@ public static int logInAsAdmin(){
             System.out.println("3. Cancel Offering");
             System.out.println("4. Cancel Booking");
 
-            System.out.println("5. Exit");
+            System.out.println("5. Logout");
 
             System.out.print("Enter choice:");
             int choice=scanner.nextInt();
@@ -226,8 +226,7 @@ public static int logInAsAdmin(){
                     cancelBookingByAdmin();
                     break;
                 case 5:
-                    System.exit(0);
-                    break;
+                   return;
                 default:
                     System.out.println("Invalid choice");
             }
@@ -305,7 +304,7 @@ public static int logInAsAdmin(){
             System.out.println("2. Book Offering");
             System.out.println("3. View booked Offerings");
             System.out.println("4. Cancel booked Offering");
-            System.out.println("5. Exit");
+            System.out.println("5. Logout");
 
             System.out.print("Enter choice:");
             int choice = scanner.nextInt();
@@ -323,8 +322,7 @@ public static int logInAsAdmin(){
                     cancelBookingByClient(client);
                     break;
                 case 5:
-                    System.exit(0);
-                    break;
+                    return;
                 default:
                     System.out.println("Invalid choice");
             }
@@ -366,7 +364,7 @@ public static void bookOffering(Client client){
             System.out.println("1. View Available Offering");
             System.out.println("2. Select Offering");
             System.out.println("3. View your lessons");
-            System.out.println("4. Exit");
+            System.out.println("4. Logout");
 
             System.out.print("Enter choice:");
             int choice = scanner.nextInt();
@@ -381,8 +379,7 @@ public static void bookOffering(Client client){
                     instructor.displayOfferingItems();
                     break;
                 case 4:
-                    System.exit(0);
-                    break;
+                    return;
                 default:
                     System.out.println("Invalid choice");
             }
@@ -566,7 +563,10 @@ public static void bookOffering(Client client){
         if(bookingId==-1){
             return;
         }
-        client.removeBooking(client.getBookings().get(bookingId));
+        Booking booking =client.getBookings().get(bookingId);
+        booking.removeOfferingItem();
+        client.removeBooking(booking);
+
         System.out.println("Booking cancelled successfully");
     }
 
