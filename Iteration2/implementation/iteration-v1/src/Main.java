@@ -82,7 +82,7 @@ public static void createOffering(Organisation organisation){
 
     /**
      * Create a organisation.schedule (we are assuming the organisation.user does not make mistakes)
-     * @return
+     * @return Schedule
  */
     private static Schedule createSchedule() {
 
@@ -196,9 +196,7 @@ public static int logInAsAdmin(){
      System.out.println("Enter password:");
      String password = scanner.nextLine();
      return admin.login(username,password);
-
 }
-
 
     public static void adminMenu(){
 
@@ -208,7 +206,9 @@ public static int logInAsAdmin(){
             System.out.println("1. Create Offering");
             System.out.println("2. View Offering");
             System.out.println("3. Cancel Offering");
-            System.out.println("4. Exit");
+            System.out.println("4. Cancel Booking");
+
+            System.out.println("5. Exit");
 
             System.out.print("Enter choice:");
             int choice=scanner.nextInt();
@@ -223,6 +223,9 @@ public static int logInAsAdmin(){
                     adminCancel();
                     break;
                 case 4:
+                    cancelBookingByAdmin();
+                    break;
+                case 5:
                     System.exit(0);
                     break;
                 default:
@@ -301,7 +304,8 @@ public static int logInAsAdmin(){
             System.out.println("1. View Available Offering");
             System.out.println("2. Book Offering");
             System.out.println("3. View booked Offerings");
-            System.out.println("4. Exit");
+            System.out.println("4. Cancel booked Offering");
+            System.out.println("5. Exit");
 
             System.out.print("Enter choice:");
             int choice = scanner.nextInt();
@@ -316,6 +320,9 @@ public static int logInAsAdmin(){
                     client.printBookedOfferings();
                     break;
                 case 4:
+                    cancelBookingByClient(client);
+                    break;
+                case 5:
                     System.exit(0);
                     break;
                 default:
@@ -515,13 +522,13 @@ public static void bookOffering(Client client){
     private static void adminCancelOffering() {
 
         System.out.println("Choose offering you want to cancel");
-        int offeringId = getIndexOfOfferingItem();
+        int offeringId = getIndexOfOffering();
         org.removeOffering(org.getOfferings().get(offeringId));
         System.out.println("Offering cancelled successfully");
 
     }
 
-    private static int getIndexOfOfferingItem(){
+    private static int getIndexOfOffering(){
         org.viewAllOfferingsForAdmin();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter organisation.offering id: [0,1,2...]");
@@ -529,9 +536,10 @@ public static void bookOffering(Client client){
         return offeringId;
     }
 
+    // admin cancel offering item
     private static void adminCancelOfferingItem(){
         System.out.println("Choose offering item you want to cancel from");
-        int offeringId = getIndexOfOfferingItem();
+        int offeringId = getIndexOfOffering();
         Offering offering = org.getOfferings().get(offeringId);
         offering.printOfferingItems();
         System.out.println("Enter organisation.offering item id: [0,1,2...]");
@@ -545,12 +553,43 @@ public static void bookOffering(Client client){
         System.out.println("Offering item cancelled successfully");
     }
 
+    // cancel booking by client
+    private static void cancelBookingByClient(Client client){
+        client.printBookedOfferings();
+        cancelBooking(client);
+    }
 
-    // admin cancel offering item
+    private static void cancelBooking(Client client){
+        System.out.println("Enter index of Booking or -1 to return: [0,1,2...]" );
+        Scanner scanner = new Scanner(System.in);
+        int bookingId = scanner.nextInt();
+        if(bookingId==-1){
+            return;
+        }
+        client.removeBooking(client.getBookings().get(bookingId));
+        System.out.println("Booking cancelled successfully");
+    }
 
+    // cancel booking by admin
+    public static void cancelBookingByAdmin(){
+        System.out.println("Choose client you want to cancel booking for");
+        int clientId = getIndexOfClient();
+        Client client = org.getClients().get(clientId);
 
+        client.printBookedOfferings();
 
-    // cancel booking by client and admin
+        cancelBooking(client);
+
+    }
+
+    public static int getIndexOfClient(){
+        org.printClientsForAdmin();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter client id: [0,1,2...]");
+        int clientId = scanner.nextInt();
+        return clientId;
+    }
+
 
 
 

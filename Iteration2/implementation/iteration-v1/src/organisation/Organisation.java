@@ -20,7 +20,6 @@ public class Organisation {
         this.name = name;
         this.locations=new ArrayList<Location>();
     }
-
     public String getName() {
         return name;
     }
@@ -154,6 +153,14 @@ public class Organisation {
      */
     public void removeOffering(Offering offering) {
         offerings.remove(offering);
+    }
+
+    public void printClientsForAdmin(){
+        int i=0;
+        for (var client: clients){
+            System.out.println(i++ +": " + client.getUsername());
+            client.printBookedOfferings();
+        }
     }
 
 

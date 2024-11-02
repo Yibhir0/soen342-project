@@ -16,8 +16,6 @@ public class ClientData {
 
         ArrayList<Client> clients = new ArrayList<>();
 
-
-
        clients.add(new Client("client1","client"));
         clients.add(new Client("client2","client" ));
 

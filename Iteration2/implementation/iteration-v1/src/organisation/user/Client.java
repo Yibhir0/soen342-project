@@ -27,9 +27,6 @@ public class Client implements User{
         bookings.add(booking);
     }
 
-
-
-
     public ArrayList<Booking> getBookings(){
         return bookings;
     }
@@ -40,9 +37,13 @@ public class Client implements User{
     public void printBookedOfferings(){
 
         System.out.println("Client: "+username);
+        if(bookings.isEmpty()){
+            System.out.println("No bookings");
+        }
+        int i=0;
         for (Booking booking: bookings){
-        System.out.println(booking);
-    }
+            System.out.println(i++ + ":" + booking);
+        }
 
 
     }
