@@ -14,7 +14,7 @@ public class InstructorData {
 
         ArrayList<Instructor> instructors = new ArrayList<>();
 
-        List<City> cities = OrganisationData.generateCities();
+        ArrayList<City> cities = OrganisationData.generateCities();
 
         instructors.add(new Instructor("John","Doe","514-123-4567","Yoga",cities ));
         instructors.add(new Instructor("Jane","Doe","514-123-4567","Swim",cities ));

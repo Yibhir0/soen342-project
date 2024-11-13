@@ -450,7 +450,8 @@ public static void bookOffering(Client client){
             System.out.println("1. View Available Offering");
             System.out.println("2. Select Offering");
             System.out.println("3. View your lessons");
-            System.out.println("4. Logout");
+            System.out.println("4. Add city to availability");
+            System.out.println("5. Logout");
 
             System.out.print("Enter choice:");
             int choice = scanner.nextInt();
@@ -465,11 +466,43 @@ public static void bookOffering(Client client){
                     instructor.displayOfferingItems();
                     break;
                 case 4:
+                    addCity(instructor);
+                    break;
+                case 5:
                     return;
                 default:
                     System.out.println("Invalid choice");
             }
         }
+    }
+    private static void addCity(Instructor instructor){
+        Scanner scanner = new Scanner(System.in);
+
+        ArrayList<City> cities=  org.getAvailableCities();//get all cities where org has offerings
+
+        //remove cities where instructor is already available
+        for(var c: instructor.geAvailableCities()){
+            if(cities.contains(c)){
+                cities.remove(c);
+            }
+        }
+        System.out.println("Chose a city to add to your availabilities: ");
+        int i =0;
+        for (City c : cities){
+            System.out.println(i+". "+c);
+        }
+        int choice = scanner.nextInt();
+        try{
+
+           City city= cities.get(choice);
+           instructor.addCity(city);
+           System.out.println("City added successfully");
+
+        }
+        catch(Exception e){
+            System.out.println("Invalid choice");
+        }
+
     }
 
     /**
@@ -562,7 +595,7 @@ public static void bookOffering(Client client){
         String phone = scanner.nextLine();
         System.out.println("Enter Speciality:");
         String speciality = scanner.nextLine();
-        List<City> cities = OrganisationData.generateCities();
+        ArrayList<City> cities = OrganisationData.generateCities();
         Instructor instructor = new Instructor(username, password,phone,speciality,cities);
         org.addInstructor(instructor);
         System.out.println("Login successful");
