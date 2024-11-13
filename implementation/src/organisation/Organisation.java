@@ -51,7 +51,12 @@ public class Organisation {
     public ArrayList<Instructor> getInstructors() {
         return this.instructors;
     }
-
+    public void removeInstructor(Instructor instructor){
+        instructors.remove(instructor);
+    }
+    public void removeClient(Client client){
+        clients.remove(client);
+    }
     public ArrayList<Client> getClients() {
         return clients;
     }

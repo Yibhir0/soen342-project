@@ -207,8 +207,9 @@ public static int logInAsAdmin(){
             System.out.println("2. View Offering");
             System.out.println("3. Cancel Offering");
             System.out.println("4. Cancel Booking");
+            System.out.println("5. Delete an account");
 
-            System.out.println("5. Logout");
+            System.out.println("6. Logout");
 
             System.out.print("Enter choice:");
             int choice=scanner.nextInt();
@@ -226,14 +227,101 @@ public static int logInAsAdmin(){
                     cancelBookingByAdmin();
                     break;
                 case 5:
-                   return;
+                    deleteAccount();
+                   break;
+                case 6:
+                    return;
                 default:
                     System.out.println("Invalid choice");
             }
 
         }
     }
+    private static void deleteAccount() {
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1. Delete a client");
+        System.out.println("2. Delete an instructor");
+        System.out.println("3. Exit");
+
+        System.out.print("Enter choice:");
+
+        int choice = scanner.nextInt();
+        switch(choice){
+            case 1:
+                ArrayList<Client> clients = org.getClients();
+                if(!clients.isEmpty()){
+                    System.out.println("Chose a client to delete:");
+                    int i=0;
+                    for(var c:clients){
+                        System.out.println(i+". "+c);
+                        i++;
+                    }
+                    System.out.println("Enter choice: [0,1,2...]");
+                    int clientId=scanner.nextInt();
+
+                    try{
+                        Client client=clients.get(clientId);
+                        ArrayList<Booking> bookings=client.getBookings();
+                        for(Booking b :bookings){
+                            b.removeOfferingItem();
+                            client.removeBooking(b);
+                            org.removeClient(client);
+                            //delete client from database
+                        }
+                    }
+                    catch(Exception e){
+                        System.out.println("Invalid Input");
+                    }
+                }
+                else{
+                    System.out.println("No client is registered with the organization");
+
+                }
+
+                break;
+            case 2:
+                ArrayList<Instructor> instructors = org.getInstructors();
+                if(!instructors.isEmpty()){
+                    System.out.println("Chose an instructor to delete:");
+                    int j=0;
+                    for(var inst:instructors){
+                        System.out.println(j+". "+inst);
+                        j++;
+                    }
+                    System.out.println("Enter choice: [0,1,2...]");
+                    int instructorId=scanner.nextInt();
+
+                    try{
+
+                        Instructor instructor=instructors.get(instructorId);
+                        ArrayList<OfferingItem> offeringItems=new ArrayList<>(instructor.getOfferingItems());
+                        for(OfferingItem o : offeringItems){
+                            o.removeInstructor();
+                            instructor.removeOfferingItem(o);
+                        }
+                        org.removeInstructor(instructor);
+                        //delete instructor from database
+                    }
+                    catch(Exception e){
+                        System.out.println("Invalid Input");
+                    }
+                }
+                else{
+                    System.out.println("No instructor is registered with the organization");
+
+                }
+
+                break;
+            case 3:
+                return;
+            default:
+                System.out.println("Invalid choice");
+        }
+
+
+
+    }
 
 
     private static void mainMenu() {
@@ -340,11 +428,12 @@ public static void bookOffering(Client client){
             try{
                 OfferingItem bookedOffering=availableOfferingItems.get(index);
                 Booking booking = new Booking(bookedOffering);
-                client.bookOffering(booking);
-               if(bookedOffering.book()) {
-                System.out.println("Offering booked successfully");}
+               if(client.bookOffering(booking)) {
+                   bookedOffering.book();
+                System.out.println("Offering booked successfully");
+               }
                else{
-                   System.out.println("Offering already booked");
+                   System.out.println("You already have an offering at the same time.");
                }
 
             }
