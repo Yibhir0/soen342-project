@@ -1,4 +1,5 @@
 import dataGenerator.organisation.OrganisationData;
+import database.DatabaseSetup;
 import organisation.Locations.City;
 import organisation.offering.Booking;
 import organisation.offering.Offering;
@@ -24,19 +25,17 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+
+
 public class Main {
-
-
 
     static Organisation org = OrganisationData.generateOrganizationData();
 
-
     public static void main(String[] args) {
 
+        DatabaseSetup.createTables();
         mainMenu();
-
     }
-
 
 public static void createOffering(Organisation organisation){
     //choose location
@@ -54,8 +53,6 @@ public static void createOffering(Organisation organisation){
 
     //create organisation.schedule
     Schedule schedule = createSchedule();
-
-
 
     //enter lesson type
     String lessonType = createLessonType();
