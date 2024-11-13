@@ -51,4 +51,15 @@ public class Schedule {
     public LocalTime getEndTime() {
         return endTime;
     }
+
+    public List<DayOfWeek> getDayOfWeek() {
+        return dayOfWeekList;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+    public LocalDate getStartDate() {
+        return startDate;
+    }
 }

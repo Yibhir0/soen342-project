@@ -1,10 +1,14 @@
 package organisation.offering;
 
 import organisation.Locations.Space;
+import organisation.schedule.DayOfWeek;
+import organisation.schedule.Schedule;
 import organisation.user.Client;
 import organisation.user.Instructor;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class OfferingItem {
 
@@ -34,6 +38,9 @@ public class OfferingItem {
 
     public boolean hasInstructor() {
         return instructor!=null;
+    }
+    public void removeInstructor(){
+        this.instructor=null;
     }
     public void setOffering(Offering offer){
         this.offering=offer;
@@ -79,6 +86,36 @@ public boolean isAvailable(){
     }
     //shows client name
 
+public boolean overlaps(OfferingItem o){
+        boolean identicalDayOfWeek=false;
+        boolean identicalTimeSlot=false;
+        boolean periodOverlap=false;
 
+        //overlaps in a day of the week
+        Schedule s1 = this.offering.getSchedule();
+       Schedule s2 =o.offering.getSchedule();
+        for(var d: s1.getDayOfWeek()){
+            if(s2.getDayOfWeek().contains(d)){
+                identicalDayOfWeek=true;
+                break;
+            }
+        }
+
+    //same time slot
+        if(this.startTime.equals(o.startTime)||this.endTime.equals(o.endTime)){
+            identicalTimeSlot=true;
+        }
+
+    //period overlap
+    LocalDate start1=s1.getStartDate();
+    LocalDate start2=s2.getStartDate();
+    LocalDate end1=s2.getEndDate();
+    LocalDate end2=s2.getEndDate();
+        if(!(end1.isBefore(start2)||start1.isAfter(end2))){
+            periodOverlap=true;
+        }
+
+        return identicalDayOfWeek && identicalTimeSlot && periodOverlap;
+    }
 
 }
