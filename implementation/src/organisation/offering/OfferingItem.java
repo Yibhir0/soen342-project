@@ -1,14 +1,11 @@
 package organisation.offering;
 
 import organisation.Locations.Space;
-import organisation.schedule.DayOfWeek;
 import organisation.schedule.Schedule;
-import organisation.user.Client;
 import organisation.user.Instructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 public class OfferingItem {
 
@@ -84,7 +81,11 @@ public boolean isAvailable(){
         String type= isPrivate?"Private":"Group";
         return offering.getSpace()+". " + startTime + " - " + endTime +". " + type+".";
     }
-    //shows client name
+    public String detailedFormatting(){
+        String type= isPrivate?"Private":"Group";
+        return getSpace().toString()+". "+ startTime + " - " + endTime +". "
+                +offering.getSchedule().daysToString()+". "+type+". Instructor: " + instructor.getName() ;
+    }
 
 public boolean overlaps(OfferingItem o){
         boolean identicalDayOfWeek=false;

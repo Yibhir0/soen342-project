@@ -24,24 +24,37 @@ public class Schedule {
     public String toString() {
         DateTimeFormatter timeFormatter=DateTimeFormatter.ofPattern("h:mm a");
         DateTimeFormatter dateFormatter=DateTimeFormatter.ofPattern("d MMMM yyyy");
-        String dayOfWeek="";
-        int i=0;
-        for(var day: dayOfWeekList){
-            i++;
-            dayOfWeek+=day.toString().charAt(0)+day.toString().substring(1).toLowerCase();
-            if(i>1 &&i<dayOfWeekList.size()-1){
-                dayOfWeek+=", ";
-            } else if (i==dayOfWeekList.size()-1) {
-                dayOfWeek+=" and ";
-            }
-        }
+        String daysOfWeek= daysOfTheWeekToString();
         //Sundays from 12PM to 3PM from 1.Sep to 30
-        return  dayOfWeek
+        return  daysOfWeek
                 + " from " + startTime.format(timeFormatter)
                 + " to " + endTime.format(timeFormatter) +
                 ", from " + startDate.format(dateFormatter)
                 + " to " + endDate.format(dateFormatter)
                 ;
+    }
+    public String daysToString() {
+        DateTimeFormatter dateFormatter=DateTimeFormatter.ofPattern("d MMMM yyyy");
+        String daysOfWeek= daysOfTheWeekToString();
+        //Sunday from 1 September 2024 to 30 September 2024
+        return  daysOfWeek
+                + " from " + startDate.format(dateFormatter)
+                + " to " + endDate.format(dateFormatter)
+                ;
+    }
+    public String daysOfTheWeekToString(){
+        String daysOfWeek="";
+        int i=0;
+        for(var day: dayOfWeekList){
+            i++;
+            daysOfWeek+=day.toString().charAt(0)+day.toString().substring(1).toLowerCase();
+            if(i>1 &&i<dayOfWeekList.size()-1){
+                daysOfWeek+=", ";
+            } else if (i==dayOfWeekList.size()-1) {
+                daysOfWeek+=" and ";
+            }
+        }
+        return daysOfWeek;
     }
 
     public LocalTime getStartTime() {

@@ -11,10 +11,7 @@ import organisation.Locations.Location;
 import organisation.Organisation;
 import organisation.schedule.DayOfWeek;
 import organisation.schedule.Schedule;
-import organisation.user.Administrator;
-import organisation.user.Client;
-import organisation.user.Instructor;
-import organisation.user.User;
+import organisation.user.*;
 
 
 import java.time.LocalDate;
@@ -359,7 +356,13 @@ public static int logInAsAdmin(){
             case 3:
                Client client=logInAsClient();
                 if (client  != null) {
-                   clientMenu(client);
+                    if(client.getClass().equals(UnderageClient.class)){
+                        underageClientMenu(client);
+                    }
+                    else{
+                        clientMenu(client);
+                    }
+
                 } else{
                     System.out.println("Invalid username or password ");
                 }
@@ -383,7 +386,29 @@ public static int logInAsAdmin(){
     }
 }
 
+public static void underageClientMenu(Client child){
+    Scanner scanner = new Scanner(System.in);
+    while (true) {
+        System.out.println("1. View Available Offering");
+        System.out.println("2. View booked Offerings");
+        System.out.println("3. Logout");
+        System.out.print("Enter choice:");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                org.viewOfferingsForPublic();
+                break;
+            case 2:
+                child.printBookedOfferings();
+                break;
+            case 3:
+                return;
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
 
+}
 
     private static void clientMenu(Client client) {
 
@@ -393,7 +418,9 @@ public static int logInAsAdmin(){
             System.out.println("2. Book Offering");
             System.out.println("3. View booked Offerings");
             System.out.println("4. Cancel booked Offering");
-            System.out.println("5. Logout");
+            System.out.println("5. Create an account for a child");
+            System.out.println("6. Handle children's bookings");
+            System.out.println("7. Logout");
 
             System.out.print("Enter choice:");
             int choice = scanner.nextInt();
@@ -411,18 +438,73 @@ public static int logInAsAdmin(){
                     cancelBookingByClient(client);
                     break;
                 case 5:
+                    addAChild(client);
+                    break;
+                case 6:
+                    handleChildrenBooking(client);
+                    break;
+                case 7:
                     return;
                 default:
                     System.out.println("Invalid choice");
             }
         }
     }
+public static void handleChildrenBooking(Client client){
+    Scanner s=new Scanner(System.in);
+    if(client.getChildren().isEmpty()){
+        System.out.println("No child is associated with your account.\n " +
+                            "Create an account for your child before proceeding");
+        return;
+    }
+    while (true) {
+        System.out.println("1. Book Offering for a child");
+        System.out.println("2. View children's booked Offerings");
+        System.out.println("3. Cancel children's booked Offering");
+        System.out.println("4. Exit");
+        int choice = s.nextInt();
+        switch (choice) {
+            case 1:
+                bookOfferingForChild(client);
+                break;
+            case 2:
+                for(var child: client.getChildren()){
+                    child.printBookedOfferings();
+                }
+                break;
+            case 3:
+                cancelBookingForChild(client);
+                break;
+            case 4:
+                return;
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
 
+
+}
+
+public static void addAChild(Client client){
+    Scanner s=new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Enter child's username:");
+    String username = scanner.nextLine();
+    System.out.println("Enter child's password:");
+    String password = scanner.nextLine();
+    UnderageClient child = new UnderageClient(username,password,client);
+    client.addChild(child);
+    org.addClient(child);
+    System.out.println("Child account created successfully");
+}
 
 public static void bookOffering(Client client){
         ArrayList<OfferingItem> availableOfferingItems=org.getAvailableOfferingsForClient();
-
-        org.viewOfferingsForPublic();//there is no index
+        int i=0;
+        for(var o: availableOfferingItems){
+            System.out.println("\t"+i+". "+o.detailedFormatting());
+            i++;
+        }
          System.out.println("Enter index of Offering Item: ");
          Scanner s=new Scanner(System.in);
          int index= s.nextInt();
@@ -443,6 +525,43 @@ public static void bookOffering(Client client){
             }
 
 }
+public static Client selectChild(Client client){
+    Scanner scanner=new Scanner(System.in);
+    ArrayList<UnderageClient> children=client.getChildren();
+    System.out.println("Chose a child: ");
+    int i=0;
+    for(var child:children){
+        System.out.println(i+". "+child.getUsername());
+        i++;
+    }
+    System.out.println("Enter choice: [0,1,2...]");
+    int index=scanner.nextInt();
+
+    try{
+        Client child=children.get(index);
+        return child;
+    }
+    catch(Exception e){
+        System.out.println("Invalid Input");
+    }
+    return null;
+}
+    public static void bookOfferingForChild(Client client){
+        Client child= selectChild(client);
+        if(child==null)
+            return;
+        System.out.println("Select and offering to book: ");
+        bookOffering(child);
+
+
+    }
+    public static void cancelBookingForChild( Client client){
+        Client child= selectChild(client);
+        if(child==null)
+            return;
+        System.out.println("Select and booking to cancel: ");
+        cancelBookingByClient(child);
+    }
     /**
      * Instructor menu
      * @param instructor
@@ -518,7 +637,7 @@ public static void bookOffering(Client client){
     private static void selectOffering(Instructor instructor) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter organisation.offering id: [0,1,2...]");
+        System.out.println("Enter offering id: [0,1,2...]");
 
         org.viewAvailableOfferingsForInstructors(instructor);
 

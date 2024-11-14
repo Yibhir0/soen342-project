@@ -1,15 +1,14 @@
 package organisation.user;
 
 import organisation.offering.Booking;
-import organisation.offering.OfferingItem;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
 
 public class Client implements User{
     private final String username;
     private final String password ;
     private ArrayList<Booking> bookings = new ArrayList<Booking>();
+    private ArrayList<UnderageClient> children =new ArrayList<UnderageClient>();
 
     public Client (String username,String password){
         this.username=username;
@@ -57,6 +56,13 @@ public class Client implements User{
     }
     public String getUsername(){
         return username;
+    }
+
+    public void addChild( UnderageClient child){
+            children.add(child);
+    }
+    public ArrayList<UnderageClient> getChildren(){
+        return children;
     }
 
 

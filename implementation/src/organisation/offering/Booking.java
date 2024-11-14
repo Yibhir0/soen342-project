@@ -10,7 +10,7 @@ public class Booking {
 
     public String toString(){
 
-        return offeringItem.getSpace().toString()+". "+offeringItem.toString();
+        return offeringItem.detailedFormatting();
 
     }
     public boolean overlaps(Booking b){
