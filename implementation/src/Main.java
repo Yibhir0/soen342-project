@@ -62,6 +62,7 @@ public static void createOffering(Organisation organisation){
 
     //createOfferingItems(Offering organisation.offering)
 
+
     createOfferingItems(offering);
 
     org.addOffering(offering);
@@ -147,10 +148,12 @@ public static void createOffering(Organisation organisation){
 
 }
 public static void createOfferingItems(Offering offering){
-        Scanner scanner=new Scanner(System.in);
-    String input="y";
+    Scanner scanner=new Scanner(System.in);
+    System.out.println("Create offering Item? (y/n)");
 
-    while(!input.equals("n")||!input.equals("N")||!input.equals("no")||!input.equals("NO")) {
+    String input=scanner.next();
+
+    while(!input.equals("n")&&!input.equals("N")&&!input.equals("no")&&!input.equals("NO")) {
         LocalTime start;
         LocalTime end;
         do {
@@ -168,7 +171,7 @@ public static void createOfferingItems(Offering offering){
             }
         }while (offering.validateTime(end));
 
-        System.out.print("Is this organisation.offering public? (y/n):");
+        System.out.print("Is this offering public? (y/n):");
         String in =scanner.next();
         boolean isPrivate=true;
         if(in.equals("y")){
@@ -480,6 +483,8 @@ public static void bookOffering(Client client){
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<City> cities=  org.getAvailableCities();//get all cities where org has offerings
+
+
 
         //remove cities where instructor is already available
         for(var c: instructor.geAvailableCities()){
