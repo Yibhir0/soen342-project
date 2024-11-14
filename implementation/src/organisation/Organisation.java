@@ -1,5 +1,6 @@
 package organisation;
 
+import organisation.Locations.City;
 import organisation.offering.Offering;
 import organisation.Locations.Location;
 import organisation.offering.OfferingItem;
@@ -51,7 +52,12 @@ public class Organisation {
     public ArrayList<Instructor> getInstructors() {
         return this.instructors;
     }
-
+    public void removeInstructor(Instructor instructor){
+        instructors.remove(instructor);
+    }
+    public void removeClient(Client client){
+        clients.remove(client);
+    }
     public ArrayList<Client> getClients() {
         return clients;
     }
@@ -111,8 +117,10 @@ public class Organisation {
      */
     public ArrayList<OfferingItem> getAvailableOfferingsForInstructors(Instructor instructor) {
         ArrayList<OfferingItem> availableOfferings = new ArrayList<>();
+
         for (var offering : getOfferings()) {
-            if (offering.getLessonType().equals(instructor.getSpeciality())) {
+            City city= offering.getSpace().getLocation().getCity();
+            if (offering.getLessonType().equals(instructor.getSpeciality()) && instructor.geAvailableCities().contains(city)) {
                 for(var item:offering.getOfferingItemList()){
                     if(!item.hasInstructor()){
                         availableOfferings.add(item);
@@ -164,5 +172,14 @@ public class Organisation {
     }
 
 
-
+    public ArrayList<City> getAvailableCities() {
+        ArrayList<City> cities =new ArrayList<>();
+        for(var l : locations){
+            City city=l.getCity();
+            if(!cities.contains(city)){
+                cities.add(city);
+            }
+        }
+        return cities;
+    }
 }

@@ -15,9 +15,9 @@ public class Instructor implements User {
 
     private ArrayList<OfferingItem> offeringItems = new ArrayList<OfferingItem>();
 
-    private List<City> availableCities = new ArrayList<City>();
+    private ArrayList<City> availableCities= new ArrayList<City>();;
 
-    public Instructor(String name, String password, String phone, String speciality, List<City> availableCities) {
+    public Instructor(String name, String password, String phone, String speciality, ArrayList<City> availableCities) {
         this.name = name;
         this.phone = phone;
         this.speciality = speciality;
@@ -58,11 +58,26 @@ public class Instructor implements User {
                 availability+=" and ";
             }
         }
-        return  name + "(" + phone+ ")"+ "is a " + speciality+ " instructor, available to work in "+availability;
+        return  name + " (" + phone+ ") "+ "is a " + speciality+ " instructor, available to work in "+availability;
     }
 
 
     public String getSpeciality() {
         return speciality;
+    }
+
+    public ArrayList<OfferingItem> getOfferingItems() {
+        return offeringItems;
+    }
+    public void removeOfferingItem(OfferingItem o){
+        offeringItems.remove(o);
+    }
+
+    public List<City> geAvailableCities() {
+        return availableCities;
+    }
+
+    public void addCity(City city) {
+        availableCities.add(city);
     }
 }

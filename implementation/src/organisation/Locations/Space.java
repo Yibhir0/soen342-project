@@ -16,4 +16,7 @@ public class Space {
         return   location.getName()+", "+name;
     }
 
+    public Location getLocation() {
+        return location;
+    }
 }

@@ -23,8 +23,13 @@ public class Client implements User{
             return 0;
         }
     }
-    public void bookOffering(Booking booking) {
-        bookings.add(booking);
+    public boolean bookOffering(Booking newBooking) {
+        for(Booking b: bookings){
+            if(b.overlaps(newBooking)){
+                return false;
+            }
+        }
+       return bookings.add(newBooking);
     }
 
     public ArrayList<Booking> getBookings(){
@@ -46,6 +51,9 @@ public class Client implements User{
         }
 
 
+    }
+    public ArrayList<Booking> getBooking(){
+        return bookings;
     }
     public String getUsername(){
         return username;

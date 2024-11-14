@@ -17,6 +17,6 @@ public class City {
 
 
     public String toString() {
-        return "Name: " + name + "\nState: " + state + "\nCountry: " + country;
+        return "Name: " + name + " State: " + state + " Country: " + country;
     }
 }

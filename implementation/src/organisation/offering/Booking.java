@@ -13,6 +13,9 @@ public class Booking {
         return offeringItem.getSpace().toString()+". "+offeringItem.toString();
 
     }
+    public boolean overlaps(Booking b){
+       return this.offeringItem.overlaps(b.offeringItem);
+    }
     public void removeOfferingItem(){
          offeringItem.removeBooking();
     }
