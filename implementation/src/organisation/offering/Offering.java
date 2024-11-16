@@ -97,7 +97,8 @@ public class Offering {
         return space;
     }
     public boolean validateTime(LocalTime t){
-        return t.isAfter(schedule.getStartTime())&&t.isBefore(schedule.getEndTime());
+
+        return (t.isAfter(schedule.getStartTime())|| t.equals(schedule.getStartTime()))&&(t.isBefore(schedule.getEndTime())|| t.equals(schedule.getEndTime()));
     }
 
     public Schedule getSchedule() {

@@ -120,7 +120,7 @@ public class Organisation {
 
         for (var offering : getOfferings()) {
             City city= offering.getSpace().getLocation().getCity();
-            if (offering.getLessonType().equals(instructor.getSpeciality()) && instructor.geAvailableCities().contains(city)) {
+            if (offering.getLessonType().equalsIgnoreCase(instructor.getSpeciality()) && instructor.geAvailableCities().contains(city)) {
                 for(var item:offering.getOfferingItemList()){
                     if(!item.hasInstructor()){
                         availableOfferings.add(item);

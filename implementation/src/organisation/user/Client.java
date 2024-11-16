@@ -59,7 +59,6 @@ public class Client implements User{
     }
     public void printBookedOfferings(){
 
-        System.out.println("Client: "+username);
         if(bookings.isEmpty()){
             System.out.println("No bookings");
         }

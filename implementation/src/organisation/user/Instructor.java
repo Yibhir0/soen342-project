@@ -16,7 +16,10 @@ public class Instructor implements User {
     private String password;
 
     private ArrayList<OfferingItem> offeringItems = new ArrayList<OfferingItem>();
+
     private ArrayList<City> availableCities= new ArrayList<City>();;
+
+
 
     public Instructor(String name, String password, String phone, String speciality, ArrayList<City> availableCities) {
         this.name = name;
