@@ -16,6 +16,7 @@ public class DatabaseSetup {
         String offeringItemTable = OfferingItemTable();
         String clientTable = ClientTable();
         String bookingTable = BookingTable();
+        String underageClientTable = UnderageClientTable();
 
         try (Connection conn = DatabaseConnection .connect();
              Statement stmt = conn.createStatement()) {
@@ -27,6 +28,7 @@ public class DatabaseSetup {
              stmt.execute(instructorTable);
              stmt.execute(offeringItemTable);
              stmt.execute(clientTable);
+             stmt.execute(underageClientTable);
              stmt.execute(bookingTable);
              System.out.println("Tables created successfully.");
         } catch (Exception e) {
@@ -38,7 +40,7 @@ public class DatabaseSetup {
             return "CREATE TABLE IF NOT EXISTS City ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "name CHAR NOT NULL,"
-                    + "address CHAR NOT NULL,"
+                    + "state CHAR NOT NULL,"
                     + "country CHAR NOT NULL"
                     + ");";
 
@@ -118,6 +120,16 @@ public class DatabaseSetup {
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "username CHAR NOT NULL,"
                 + "password CHAR NOT NULL"
+                + ");";
+    }
+
+    private static String UnderageClientTable() {
+        return "CREATE TABLE IF NOT EXISTS UnderageClient("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "username CHAR NOT NULL,"
+                + "password CHAR NOT NULL,"
+                + "parent_id INTEGER,"
+                + "FOREIGN KEY(parent_Id) REFERENCES Client(id)"
                 + ");";
     }
 

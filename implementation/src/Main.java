@@ -1,5 +1,6 @@
 import dataGenerator.organisation.OrganisationData;
 import database.DatabaseSetup;
+import database.organisation.OrganisationDAO;
 import organisation.Locations.City;
 import organisation.offering.Booking;
 import organisation.offering.Offering;
@@ -26,11 +27,14 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    static Organisation org = OrganisationData.generateOrganizationData();
+    static Organisation org ;
 
     public static void main(String[] args) {
 
         DatabaseSetup.createTables();
+
+        org = OrganisationDAO.getOrganisationFromDB();
+//        org = OrganisationData.generateOrganizationData();
 
         mainMenu();
     }
@@ -58,13 +62,9 @@ public static void createOffering(Organisation organisation){
     Offering offering = new Offering(lessonType,space,schedule);
 
     //createOfferingItems(Offering organisation.offering)
-
-
     createOfferingItems(offering);
 
     org.addOffering(offering);
-
-
 
 
 }
@@ -156,17 +156,17 @@ public static void createOfferingItems(Offering offering){
         do {
             System.out.print("Enter start time (HH:mm):");//check if start time is between organisation.offering.Schedule.startTime and  organisation.offering.Schedule.endTime
             start = LocalTime.parse(scanner.next());
-            if(offering.validateTime(start)){
+            if(!offering.validateTime(start)){
                 System.out.println("time needs to be between "+offering.getSchedule().getStartTime() + "and" + offering.getSchedule().getEndTime());
             }
-        }while (offering.validateTime(start));
+        }while (!offering.validateTime(start));
         do {
             System.out.print("Enter end time (HH:mm):");
             end = LocalTime.parse(scanner.next());
-            if(offering.validateTime(end)){
+            if(!offering.validateTime(end)){
                 System.out.println("time needs to be between "+offering.getSchedule().getStartTime() + "and" + offering.getSchedule().getEndTime());
             }
-        }while (offering.validateTime(end));
+        }while (!offering.validateTime(end));
 
         System.out.print("Is this offering public? (y/n):");
         String in =scanner.next();

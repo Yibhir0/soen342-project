@@ -9,12 +9,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class Offering {
+
+    private int id;
     private String lessonType;
 
     private List<OfferingItem> offeringItemList;
-
     private Space space;
-
     private Schedule schedule;
 
     public Offering(String lessonType,
@@ -23,6 +23,23 @@ public class Offering {
         this.offeringItemList = new ArrayList<OfferingItem>();
         this.space = space;
         this.schedule = schedule;
+    }
+
+    public Offering(int id,String lessonType,
+                    Space space, Schedule schedule) {
+        this.lessonType = lessonType;
+        this.offeringItemList =  new ArrayList<OfferingItem>();
+        this.space = space;
+        this.schedule = schedule;
+        this.id = id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void removeOfferingItem(OfferingItem offeringItem) {
@@ -40,9 +57,9 @@ public class Offering {
 
     public String toString() {
         String offeringItems="";
-        for(var o:offeringItemList){
-            offeringItems+="\t"+o.toString()+"\n";
-        }
+//        for(var o:offeringItemList){
+//            offeringItems+="\t"+o.toString()+"\n";
+//        }
         return "We offer " + lessonType +" classes in " +space+ " on "+ schedule + " as follows: \n" + offeringItems;
     }
 
@@ -72,6 +89,8 @@ public class Offering {
             System.out.println(i++ + ":" + o);
         }
     }
+
+
 
 
     public Space getSpace() {

@@ -3,6 +3,11 @@ package dataGenerator.organisation;
 import dataGenerator.schedule.ScheduleData;
 import dataGenerator.user.ClientData;
 import dataGenerator.user.InstructorData;
+import database.Instructor.InstructorDAO;
+import database.client.ClientDAO;
+import database.location.LocationDAO;
+import database.offering.OfferingDAO;
+import database.offering.OfferingItemDAO;
 import organisation.offering.Booking;
 import organisation.offering.Offering;
 import organisation.offering.OfferingItem;
@@ -13,6 +18,7 @@ import organisation.Locations.Space;
 import organisation.schedule.Schedule;
 import organisation.user.Client;
 import organisation.user.Instructor;
+import organisation.user.UnderageClient;
 
 import java.awt.print.Book;
 import java.time.LocalTime;
@@ -31,15 +37,42 @@ public class OrganisationData {
         ArrayList<Instructor> instructors = InstructorData.generateInstructors();
         organisation.setInstructors(instructors);
 
+        //Sql
+        InstructorDAO.insertInstructors(instructors);
+
 
         ArrayList<Client> clients = ClientData.generateClients();
         organisation.setClients(clients);
 
+        //SQL
+        ClientDAO.insertClient(clients.get(0));
+        ClientDAO.insertClient(clients.get(1));
+        ClientDAO.insertUnderageClient( (UnderageClient) clients.get(2),clients.get(0));
+
         //generating location and space data (temporary until database is implemented)
         organisation.setLocations(generateLocations());
         ArrayList<Location> locations = organisation.getLocations();
-        organisation.setOfferings(generateOfferings(instructors));
 
+        //SQL
+        LocationDAO.insertLocation(locations.get(0));
+        LocationDAO.insertLocation(locations.get(1));
+
+        for(var loc:locations){
+            ArrayList<Space> generatedSpaces= generateSpaces(loc);
+
+            loc.setSpaces(generatedSpaces);
+
+            // SQl
+            for(var space:generatedSpaces){
+                LocationDAO.insertSpace(space);
+            }
+        }
+
+        organisation.setOfferings(generateOfferings(instructors,locations.get(0)));
+
+        //SQL
+        OfferingDAO.insertOffering(organisation.getOfferings().get(0),1);
+        OfferingDAO.insertOffering(organisation.getOfferings().get(1),2);
 
         // Assign offering item to client
 
@@ -56,23 +89,22 @@ public class OrganisationData {
             System.out.println("Offering is not available");
         }
 
-        for(var loc:locations){
-            ArrayList<Space> generatedSpaces= generateSpaces();
-            loc.setSpaces(generatedSpaces);
-        }
+        OfferingItemDAO.insertOfferingItem(organisation.getOfferings().get(0));
+        OfferingItemDAO.insertOfferingItem(organisation.getOfferings().get(1));
+
 
         return organisation;
 
     }
 
 
-    public static ArrayList<Space> generateSpaces() {
+    public static ArrayList<Space> generateSpaces(Location loc) {
 
 
-        ArrayList<Location> locations = generateLocations();
+//        ArrayList<Location> locations = generateLocations();
         ArrayList<Space> spaces = new ArrayList<>();
-        spaces.add(new Space("Gym",locations.get(0)));
-        spaces.add(new Space("Pool",locations.get(0)));
+        spaces.add(new Space("Gym",loc));
+        spaces.add(new Space("Pool",loc));
 
         return spaces;
 
@@ -84,6 +116,11 @@ public class OrganisationData {
         // to do
         ArrayList<Location> locations = new ArrayList<>();
         City mtl = new City("Montreal","Quebec","Canada");
+
+        mtl.setId(1);
+
+
+
         locations.add(new Location("EV. Building", "123 Mackay St",mtl));
         locations.add(new Location("Faubourg", "123 St-Catherine",mtl));
         return locations;
@@ -123,7 +160,7 @@ public class OrganisationData {
         return offeringItems;
     }
 
-    public static ArrayList<Offering> generateOfferings(ArrayList<Instructor> instructors) {
+    public static ArrayList<Offering> generateOfferings(ArrayList<Instructor> instructors,Location loc) {
 
         ArrayList<Offering> offerings = new ArrayList<>();
 
@@ -131,7 +168,9 @@ public class OrganisationData {
         ArrayList<OfferingItem> offeringItems = generateOfferingItems(instructors);
 
         ArrayList<Schedule> schedules = ScheduleData.generateSchedules();
-        ArrayList<Space> spaces = OrganisationData.generateSpaces();
+
+
+        ArrayList<Space> spaces = OrganisationData.generateSpaces(loc);
 
 
         offerings.add(new Offering("Yoga",spaces.get(0),schedules.get(0)));

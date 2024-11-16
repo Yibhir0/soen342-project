@@ -3,6 +3,8 @@ package organisation.Locations;
 import java.util.ArrayList;
 
 public class Location {
+
+    private int id;
     private String name;
     private String address;
     private City city;
@@ -39,5 +41,13 @@ public class Location {
 
     public String toString() {
         return "Name: " + name + "\nAddress: " + address + "\nCity: " + city.getName();
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }

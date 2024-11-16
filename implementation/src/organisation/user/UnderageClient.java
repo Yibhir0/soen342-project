@@ -6,4 +6,8 @@ public class UnderageClient extends Client{
         super(username, password);
         this.guardian=guardian;
     }
+    public UnderageClient(int id, String username, String password,Client guardian) {
+        super(id,username, password);
+        this.guardian=guardian;
+    }
 }

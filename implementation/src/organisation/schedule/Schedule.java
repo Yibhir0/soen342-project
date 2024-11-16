@@ -57,6 +57,15 @@ public class Schedule {
         return daysOfWeek;
     }
 
+    public String getDaysOfWeek() {
+        String daysOfWeek="";
+
+        for (var day : dayOfWeekList) {
+            daysOfWeek += day.toString() + ", ";
+        }
+        return daysOfWeek;
+    }
+
     public LocalTime getStartTime() {
         return startTime;
     }

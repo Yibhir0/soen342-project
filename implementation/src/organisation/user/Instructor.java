@@ -8,13 +8,14 @@ import organisation.offering.OfferingItem;
 import organisation.Locations.City;
 
 public class Instructor implements User {
+
+    private int id;
     private final String name;
     private String phone;
     private String speciality;
     private String password;
 
     private ArrayList<OfferingItem> offeringItems = new ArrayList<OfferingItem>();
-
     private ArrayList<City> availableCities= new ArrayList<City>();;
 
     public Instructor(String name, String password, String phone, String speciality, ArrayList<City> availableCities) {
@@ -27,6 +28,33 @@ public class Instructor implements User {
     public String getName() {
         return name;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+
     public void addOffering(OfferingItem offeringItem) {
         offeringItems.add(offeringItem);
     }
@@ -79,5 +107,9 @@ public class Instructor implements User {
 
     public void addCity(City city) {
         availableCities.add(city);
+    }
+
+    public void setOfferingItems(ArrayList<OfferingItem> offeringItems) {
+        this.offeringItems = offeringItems;
     }
 }

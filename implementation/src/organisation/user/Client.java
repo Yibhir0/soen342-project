@@ -5,6 +5,8 @@ import organisation.offering.Booking;
 import java.util.ArrayList;
 
 public class Client implements User{
+
+    private int id;
     private final String username;
     private final String password ;
     private ArrayList<Booking> bookings = new ArrayList<Booking>();
@@ -15,6 +17,19 @@ public class Client implements User{
         this.password=password;
     }
 
+    public Client(int id, String username, String password){
+        this.username=username;
+        this.password=password;
+        this.id=id;
+
+    }
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id=id;
+    }
+
     public int login(String name,String password) {
         if (this.username.equals(name) && this.password.equals(password)) {
             return 1;
@@ -22,6 +37,7 @@ public class Client implements User{
             return 0;
         }
     }
+
     public boolean bookOffering(Booking newBooking) {
         for(Booking b: bookings){
             if(b.overlaps(newBooking)){
@@ -31,11 +47,14 @@ public class Client implements User{
        return bookings.add(newBooking);
     }
 
+    public String getPassword(){
+        return password;
+    }
+
     public ArrayList<Booking> getBookings(){
         return bookings;
     }
     public boolean removeBooking(Booking booking) {
-
         return bookings.remove(booking);
     }
     public void printBookedOfferings(){
@@ -65,5 +84,12 @@ public class Client implements User{
         return children;
     }
 
+    public void setChildren(ArrayList<UnderageClient> children){
+        this.children=children;
+    }
 
+
+    public void setBookings(ArrayList<Booking> bookings) {
+        this.bookings = bookings;
+    }
 }

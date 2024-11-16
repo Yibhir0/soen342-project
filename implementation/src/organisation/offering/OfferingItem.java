@@ -9,11 +9,10 @@ import java.time.LocalTime;
 
 public class OfferingItem {
 
+    private int id;
     private boolean isPrivate = false ;
     private LocalTime startTime;
-
     private boolean isAvailable = true;
-
     private LocalTime endTime;
     private Instructor instructor;
     private Offering offering;
@@ -23,11 +22,48 @@ public class OfferingItem {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    public OfferingItem(boolean isPrivate, LocalTime startTime, LocalTime endTime,boolean isAvailable) {
+        this.isPrivate = isPrivate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isAvailable=isAvailable;
+    }
     public OfferingItem(boolean isPrivate, LocalTime startTime, LocalTime endTime,Offering offering1) {
         this.isPrivate = isPrivate;
         this.startTime = startTime;
         this.endTime = endTime;
         this.offering=offering1;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public OfferingItem(int id, boolean isPrivate, LocalTime startTime, LocalTime endTime,boolean isAvailable) {
+        this.id=id;
+        this.isPrivate = isPrivate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isAvailable=isAvailable;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+    public Offering getOffering() {
+        return offering;
+    }
+
+
+
+
+    public Instructor getInstructor() {
+        return instructor;
     }
     public void addInstructor(Instructor inst){
         instructor=inst;
@@ -76,6 +112,10 @@ public boolean isAvailable(){
         }
     }
 
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
     //doesn't display instructor name
     public String toStringForInstructors(){
         String type= isPrivate?"Private":"Group";
@@ -119,4 +159,7 @@ public boolean overlaps(OfferingItem o){
         return identicalDayOfWeek && identicalTimeSlot && periodOverlap;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }
