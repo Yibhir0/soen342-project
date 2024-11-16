@@ -19,6 +19,31 @@ import java.util.ArrayList;
 
 public class OfferingDAO {
 
+
+    public static void insertOffering(Offering offering){
+        String query = "INSERT INTO Offering (space_Id, lessonType, startDay, endDay, dayOfWeek, startTime, endTime) VALUES ("
+                + offering.getSpace().getId() + ", '"
+                + offering.getLessonType() + "' ,'"
+                + Date.valueOf(offering.getSchedule().getStartDate()) + "', '"
+                +  Date.valueOf(offering.getSchedule().getEndDate()) + "', '"
+                + offering.getSchedule().getDaysOfWeek() + "', '"
+                + offering.getSchedule().getStartTime() + "', '"
+                + offering.getSchedule().getEndTime() + "');";
+
+        try (Connection conn = DatabaseConnection.connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(query);
+            // Get the id of the inserted offering
+            ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()");
+            int id = rs.getInt(1);
+            offering.setId(id);
+            System.out.println("offering inserted id : "+ id);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void insertOffering(Offering offering, int spaceId) {
      String query = "INSERT INTO Offering (space_Id, lessonType, startDay, endDay, dayOfWeek, startTime, endTime) VALUES ("
              + spaceId + ", '"

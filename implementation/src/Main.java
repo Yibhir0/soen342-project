@@ -1,5 +1,9 @@
 import dataGenerator.organisation.OrganisationData;
 import database.DatabaseSetup;
+import database.Instructor.InstructorDAO;
+import database.client.ClientDAO;
+import database.offering.OfferingDAO;
+import database.offering.OfferingItemDAO;
 import database.organisation.OrganisationDAO;
 import organisation.Locations.City;
 import organisation.offering.Booking;
@@ -58,6 +62,7 @@ public static void createOffering(Organisation organisation){
     String lessonType = createLessonType();
     //create Offering(String lessonType,Space space, Schedule organisation.schedule)
     Offering offering = new Offering(lessonType,space,schedule);
+    OfferingDAO.insertOffering(offering);
 
     //createOfferingItems(Offering organisation.offering)
     createOfferingItems(offering);
@@ -107,7 +112,7 @@ public static void createOffering(Organisation organisation){
     private static Space chooseSpace(Location location) {
         ArrayList<Space> spaces = location.getSpaces();
         System.out.println("Choose a space:");
-        int index = 0;
+        int index = 1;
         for (Space space : spaces) {
             System.out.println((index++) + ": " + space);
         }
@@ -125,16 +130,16 @@ public static void createOffering(Organisation organisation){
     private static Location chooseLocation(ArrayList<Location> locations) {
 
     System.out.println("choose a location:");
-    int index = 0;
+
     for (Location location : locations) {
-        System.out.println((index++) + ": " + location);
+        System.out.println( location);
     }
     Scanner scanner = new Scanner(System.in);
     System.out.print("Enter location id:");
     int locationId = scanner.nextInt();
 
     try {
-        return locations.get(locationId);
+        return locations.get(locationId-1) ;
     } catch (Exception e) {
         System.out.println("Invalid location id");
         return null;
@@ -173,8 +178,11 @@ public static void createOfferingItems(Offering offering){
             isPrivate=false;
         }
 
+        OfferingItem offeringItem = new OfferingItem(isPrivate, start, end,offering);
 
-        offering.addOfferingItem(new OfferingItem(isPrivate, start, end,offering));
+        OfferingItemDAO.insertOfferingItem(offeringItem);
+
+        offering.addOfferingItem(offeringItem);
 
         System.out.print("continue? (y/n):");
         input=scanner.next();
@@ -602,7 +610,6 @@ public static Client selectChild(Client client){
 
 
         ArrayList<City> cities=  org.getAvailableCities();//get all cities where org has offerings
-
         //remove cities where instructor is already available
         for(var c: instructor.geAvailableCities()){
             if(cities.contains(c)){
@@ -735,6 +742,8 @@ public static Client selectChild(Client client){
         Instructor instructor = new Instructor(username, password,phone,speciality,new ArrayList<City>());
         addCity(instructor);
         org.addInstructor(instructor);
+
+        InstructorDAO.insertInstructor(instructor);
         System.out.println("Login successful");
         instructorMenu(instructor);
     }
@@ -746,6 +755,7 @@ public static Client selectChild(Client client){
         System.out.println("Enter password:");
         String password = scanner.nextLine();
         Client client = new Client(username, password);
+        ClientDAO.insertClient(client);
         org.addClient(client);
         System.out.println("Login successful");
         clientMenu(client);

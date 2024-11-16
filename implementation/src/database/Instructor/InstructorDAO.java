@@ -242,4 +242,43 @@ public class InstructorDAO {
         }
         return instructor;
     }
+
+    public static void insertInstructor(Instructor instructor) {
+
+        try (Connection conn = DatabaseConnection.connect();
+             Statement stmt = conn.createStatement()) {
+            String sql = "INSERT INTO Instructor (name, phone, password, specialization) VALUES ('" + instructor.getName() + "', '" + instructor.getPhone() + "', '" + instructor.getPassword() + "', '" + instructor.getSpeciality() + "')";
+
+            int affectedRows = stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+
+            if (affectedRows > 0) {
+                System.out.println("Insert successful Instructor");
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int id = rs.getInt(1); // Get the auto-generated ID
+                        instructor.setId(id);
+                        System.out.println("Instructor ID: " + id);
+                        // insert cities into instructor_availability
+                        for (City city : instructor.geAvailableCities()) {
+                            String sql2 = "INSERT INTO Instr_availability (instructor_Id, city_Id) VALUES ('" + instructor.getId() + "', '" + city.getId() + "')";
+
+                            int affectedRows2 = stmt.executeUpdate(sql2);
+
+                            if (affectedRows2 > 0) {
+                                System.out.println("Insert successful Instructor availability");
+                            }
+                            else{
+                                System.out.println("Insert failed, no rows affected.");
+                            }
+                        }
+                    }
+                }
+            } else {
+                System.out.println("Insert failed, no rows affected.");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

@@ -40,7 +40,7 @@ public class Location {
 
 
     public String toString() {
-        return "Name: " + name + "\nAddress: " + address + "\nCity: " + city.getName();
+        return "Id:"+ id+ " Name: " + name + "\nAddress: " + address + "\nCity: " + city.getName();
     }
 
     public void setId(int id) {
