@@ -156,17 +156,17 @@ public static void createOfferingItems(Offering offering){
         do {
             System.out.print("Enter start time (HH:mm):");//check if start time is between organisation.offering.Schedule.startTime and  organisation.offering.Schedule.endTime
             start = LocalTime.parse(scanner.next());
-            if(offering.validateTime(start)){
+            if(!offering.validateTime(start)){
                 System.out.println("time needs to be between "+offering.getSchedule().getStartTime() + "and" + offering.getSchedule().getEndTime());
             }
-        }while (offering.validateTime(start));
+        }while (!offering.validateTime(start));
         do {
             System.out.print("Enter end time (HH:mm):");
             end = LocalTime.parse(scanner.next());
-            if(offering.validateTime(end)){
+            if(!offering.validateTime(end)){
                 System.out.println("time needs to be between "+offering.getSchedule().getStartTime() + "and" + offering.getSchedule().getEndTime());
             }
-        }while (offering.validateTime(end));
+        }while (!offering.validateTime(end));
 
         System.out.print("Is this offering public? (y/n):");
         String in =scanner.next();
@@ -451,12 +451,13 @@ public static void underageClientMenu(Client child){
         }
     }
 public static void handleChildrenBooking(Client client){
-    Scanner s=new Scanner(System.in);
+
     if(client.getChildren().isEmpty()){
         System.out.println("No child is associated with your account.\n " +
                             "Create an account for your child before proceeding");
         return;
     }
+    Scanner s=new Scanner(System.in);
     while (true) {
         System.out.println("1. Book Offering for a child");
         System.out.println("2. View children's booked Offerings");
@@ -526,6 +527,7 @@ public static void bookOffering(Client client){
 
 }
 public static Client selectChild(Client client){
+
     Scanner scanner=new Scanner(System.in);
     ArrayList<UnderageClient> children=client.getChildren();
     System.out.println("Chose a child: ");
@@ -599,11 +601,9 @@ public static Client selectChild(Client client){
         }
     }
     private static void addCity(Instructor instructor){
-        Scanner scanner = new Scanner(System.in);
+
 
         ArrayList<City> cities=  org.getAvailableCities();//get all cities where org has offerings
-
-
 
         //remove cities where instructor is already available
         for(var c: instructor.geAvailableCities()){
@@ -611,6 +611,13 @@ public static Client selectChild(Client client){
                 cities.remove(c);
             }
         }
+        if(cities.isEmpty()){
+            System.out.println("No city can be added to your availabilities.");
+            return;
+        }
+
+
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Chose a city to add to your availabilities: ");
         int i =0;
         for (City c : cities){
@@ -636,6 +643,11 @@ public static Client selectChild(Client client){
      */
     private static void selectOffering(Instructor instructor) {
 
+        ArrayList<OfferingItem> offeringItems = org.getAvailableOfferingsForInstructors(instructor);
+        if(offeringItems.isEmpty()){
+            System.out.println("No offering available for your specialty in your city.");
+            return;
+        }
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter offering id: [0,1,2...]");
 
@@ -643,7 +655,7 @@ public static Client selectChild(Client client){
 
         int offeringId = scanner.nextInt();
 
-        ArrayList<OfferingItem> offeringItems = org.getAvailableOfferingsForInstructors(instructor);
+
 
         try{
 
@@ -656,7 +668,7 @@ public static Client selectChild(Client client){
 
         }
         catch(Exception e){
-            System.out.println("Invalid organisation.offering id");
+            System.out.println("Invalid offering id");
         }
 
     }
@@ -720,8 +732,9 @@ public static Client selectChild(Client client){
         String phone = scanner.nextLine();
         System.out.println("Enter Speciality:");
         String speciality = scanner.nextLine();
-        ArrayList<City> cities = OrganisationData.generateCities();
-        Instructor instructor = new Instructor(username, password,phone,speciality,cities);
+       // ArrayList<City> cities = OrganisationData.generateCities();
+        Instructor instructor = new Instructor(username, password,phone,speciality,new ArrayList<City>());
+        addCity(instructor);
         org.addInstructor(instructor);
         System.out.println("Login successful");
         instructorMenu(instructor);
