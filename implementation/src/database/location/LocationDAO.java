@@ -88,7 +88,6 @@ public class LocationDAO {
             String sql = "SELECT * FROM Location WHERE id = " + locationId;
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                System.out.println("here i am");
                 int id = rs.getInt("id");
                 int cityId = rs.getInt("city_Id");
                 City city = getCityById(cityId);

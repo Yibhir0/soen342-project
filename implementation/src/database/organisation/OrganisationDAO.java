@@ -25,49 +25,49 @@ public class OrganisationDAO {
 
         // Fetch instructors from the database
         ArrayList<Instructor> instructors = InstructorDAO.getInstructors();
-//        organisation.setInstructors(instructors);
-//
+        organisation.setInstructors(instructors);
+
 //        // Fetch clients from the database
-//        ArrayList<Client> clients = ClientDAO.getAllClients();
-//        organisation.setClients(clients);
+        ArrayList<Client> clients = ClientDAO.getAllClients();
+        organisation.setClients(clients);
 //
-//        for(var client:clients){
-//            if(client instanceof Client){
-//                ArrayList<Booking> bookings = BookingDAO.getBookingsByClientId(client.getId());
-//                client.setBookings(bookings);
-//            }
-//        }
-//
+        for(var client:clients){
+            if(client instanceof Client){
+                ArrayList<Booking> bookings = BookingDAO.getBookingsByClientId(client.getId());
+                client.setBookings(bookings);
+            }
+        }
+
 //        // Fetch locations from the database
-//        ArrayList<Location> locations = LocationDAO.getAllLocations();
-//
-//
-//        organisation.setLocations(locations);
-//
-//        // Fetch offerings from the database
-//        organisation.setOfferings(OfferingDAO.getAllOfferings());
-//
-//        OfferingItem oItem = organisation.getOfferings().get(0).getOfferingItemList().get(0);
-//        boolean isBooked = oItem.book();
-//
-//        if(isBooked){
-//            Booking booking = new Booking(oItem);
-//            booking.setClient(clients.get(0));
-//            clients.get(0).bookOffering(booking);
-//            // add the booking to the database
-//            BookingDAO.insertBooking(booking);
-//        }
-//        else{
-//            System.out.println("Offering is not available");
-//        }
-//
-//        for(var loc:locations){
-//
-//            ArrayList<Space> generatedSpaces= LocationDAO.getSpacesByLocationId(loc.getId());
-//
-//            loc.setSpaces(generatedSpaces);
-//            // SQl
-//        }
+        ArrayList<Location> locations = LocationDAO.getAllLocations();
+
+
+        organisation.setLocations(locations);
+
+        // Fetch offerings from the database
+        organisation.setOfferings(OfferingDAO.getAllOfferings());
+
+        OfferingItem oItem = organisation.getOfferings().get(0).getOfferingItemList().get(0);
+        boolean isBooked = oItem.book();
+
+        if(isBooked){
+            Booking booking = new Booking(oItem);
+            booking.setClient(clients.get(0));
+            clients.get(0).bookOffering(booking);
+            // add the booking to the database
+            BookingDAO.insertBooking(booking);
+        }
+        else{
+            System.out.println("Offering is not available");
+        }
+
+        for(var loc:locations){
+
+            ArrayList<Space> generatedSpaces= LocationDAO.getSpacesByLocationId(loc.getId());
+
+            loc.setSpaces(generatedSpaces);
+            // SQl
+        }
 
         return organisation;
     }

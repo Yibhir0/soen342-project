@@ -15,9 +15,9 @@ public class Instructor implements User {
     private String speciality;
     private String password;
 
-    private ArrayList<OfferingItem> offeringItems = new ArrayList<OfferingItem>();
+    private List<OfferingItem> offeringItems = new ArrayList<OfferingItem>();
 
-    private ArrayList<City> availableCities= new ArrayList<City>();;
+    private List<City> availableCities= new ArrayList<City>();;
 
 
 
@@ -65,6 +65,7 @@ public class Instructor implements User {
 
 
     public int login(String name,String password) {
+
         if (this.name.equals(name) && this.password.equals(password)) {
             return 1;
         } else {
@@ -97,7 +98,7 @@ public class Instructor implements User {
         return speciality;
     }
 
-    public ArrayList<OfferingItem> getOfferingItems() {
+    public List<OfferingItem> getOfferingItems() {
         return offeringItems;
     }
     public void removeOfferingItem(OfferingItem o){
@@ -106,6 +107,10 @@ public class Instructor implements User {
 
     public List<City> geAvailableCities() {
         return availableCities;
+    }
+
+    public void setAvailableCities(List<City> availableCities) {
+        this.availableCities = availableCities;
     }
 
     public void addCity(City city) {

@@ -44,7 +44,9 @@ public class OfferingDAO {
     }
 
     public static Offering getOfferingById(int offeringId){
+
         Offering offering = null;
+
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement()) {
             String sql = "SELECT * FROM Offering WHERE id = " + offeringId;
@@ -82,11 +84,6 @@ public class OfferingDAO {
 
                 offering = new Offering(id, lessonType, space, schedule);
 
-                ArrayList<OfferingItem> offeringItems = OfferingItemDAO.getOfferingItemsByOfferingId(offering);
-//
-                for (OfferingItem offeringItem : offeringItems) {
-                    offering.addOfferingItem(offeringItem);
-                }
 
             }
         } catch (Exception e) {

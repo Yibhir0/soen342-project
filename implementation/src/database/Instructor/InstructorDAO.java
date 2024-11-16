@@ -41,8 +41,7 @@ public class InstructorDAO {
                     System.out.println("Insert failed, no rows affected.");
                 }
 
-                insertCities(instructor.geAvailableCities());
-                insertInstructorAvailableCity(instructors);
+
 
                 // get the id of the instructo
             }
@@ -57,6 +56,7 @@ public class InstructorDAO {
 
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement()) {
+            System.out.println("Cities: " + cities.size());
             for (City city : cities) {
                 String sql = "INSERT INTO City (name, state, country) VALUES ('" + city.getName() + "', '" + city.getState() + "', '" + city.getCountry() + "')";
 
@@ -91,6 +91,8 @@ public class InstructorDAO {
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement()) {
             for (Instructor instructor : instructors) {
+
+
                 for (City city : instructor.geAvailableCities()) {
                     String sql = "INSERT INTO Instr_availability (instructor_Id, city_Id) VALUES ('" + instructor.getId() + "', '" + city.getId() + "')";
 
@@ -115,13 +117,12 @@ public class InstructorDAO {
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement()) {
 
-            String sql = "SELECT * FROM City INNER JOIN Instr_availability ON City.id = Instr_availability.city_Id WHERE Instr_availability.instructor_Id = " + instructorID;
+            String sql = "SELECT DISTINCT * FROM City INNER JOIN Instr_availability ON City.id = Instr_availability.city_Id WHERE Instr_availability.instructor_Id = " + instructorID;
 
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
 
-                System.out.println("City found");
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String state = rs.getString("state");
@@ -138,6 +139,7 @@ public class InstructorDAO {
     }
 
     public static ArrayList<OfferingItem> getInstructorOfferingItems(Instructor instructor){
+
         ArrayList<OfferingItem> offeringItems = new ArrayList<>();
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement()) {
@@ -163,7 +165,11 @@ public class InstructorDAO {
 
                 Offering offering = OfferingDAO.getOfferingById(offeringId);
 
+
                 offeringItem.setOffering(offering);
+
+                offering.addOfferingItem(offeringItem);
+
                 offeringItems.add(offeringItem);
 
             }
@@ -191,10 +197,15 @@ public class InstructorDAO {
                 String specialization = rs.getString("specialization");
 
                 ArrayList<City> cities = getInstructorCities(id);
-                Instructor instructor = new Instructor(name, phone, password, specialization,cities);
+
+                Instructor instructor = new Instructor(name, password,phone, specialization,cities);
                 instructor.setId(id);
+
                 ArrayList<OfferingItem> offeringItems = getInstructorOfferingItems(instructor);
-                instructor.setOfferingItems(offeringItems);
+
+
+
+                instructor.setOfferingItems(null);
                 instructors.add(instructor);
 
             }
@@ -202,7 +213,6 @@ public class InstructorDAO {
             System.out.println(e.getMessage());
         }
 
-        System.out.println("Instructors: " + instructors.size());
         return instructors;
     }
 
@@ -222,7 +232,7 @@ public class InstructorDAO {
                 String specialization = rs.getString("specialization");
 
                 ArrayList<City> cities = getInstructorCities(id);
-                instructor = new Instructor(name, phone, password, specialization,cities);
+                instructor = new Instructor(name, password,phone, specialization,cities);
                 instructor.setId(id);
                 ArrayList<OfferingItem> offeringItems = getInstructorOfferingItems(instructor);
                 instructor.setOfferingItems(offeringItems);

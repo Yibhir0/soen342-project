@@ -35,14 +35,25 @@ public class OrganisationData {
         Organisation organisation = new Organisation("");
 
         ArrayList<Instructor> instructors = InstructorData.generateInstructors();
+
+        //SQL
+
+
         organisation.setInstructors(instructors);
 
         //Sql
         InstructorDAO.insertInstructors(instructors);
 
+        InstructorDAO.insertCities(instructors.get(0).geAvailableCities());
+
+        instructors.get(1).setAvailableCities(instructors.get(0).geAvailableCities());
+
+        InstructorDAO.insertInstructorAvailableCity(instructors);
+
 
         ArrayList<Client> clients = ClientData.generateClients();
         organisation.setClients(clients);
+
 
         //SQL
         ClientDAO.insertClient(clients.get(0));
@@ -89,9 +100,14 @@ public class OrganisationData {
             System.out.println("Offering is not available");
         }
 
-        OfferingItemDAO.insertOfferingItem(organisation.getOfferings().get(0));
-        OfferingItemDAO.insertOfferingItem(organisation.getOfferings().get(1));
+//        OfferingItemDAO.insertOfferingItem(organisation.getOfferings().get(0));
+//        OfferingItemDAO.insertOfferingItem(organisation.getOfferings().get(1));
 
+        for(var o : organisation.getOfferings()){
+            for(var oi : o.getOfferingItemList()){
+                OfferingItemDAO.insertOfferingItem(oi);
+            }
+        }
 
         return organisation;
 

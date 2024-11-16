@@ -14,9 +14,38 @@ import java.util.ArrayList;
 
 public class OfferingItemDAO {
 
+
+    public static void insertOfferingItem(OfferingItem offeringItem) {
+        int instructorId = 0;
+
+        if(offeringItem.getInstructor() != null){
+            instructorId = offeringItem.getInstructor().getId();
+        }
+
+        String query = "INSERT INTO OfferingItem (offering_Id, instructor_Id, isPrivate, startTime, endTime, isAvailable) VALUES ("
+                + offeringItem.getOffering().getId() + ", "
+                + instructorId + ", "
+                + offeringItem.isPrivate() + " ,'"
+                + offeringItem.getStartTime() + "', '"
+                + offeringItem.getEndTime() + "', '"
+                + offeringItem.isAvailable() + "');";
+        try (Connection conn = DatabaseConnection.connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(query);
+            // Get the id of the inserted offering
+            ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()");
+            int id = rs.getInt(1);
+            offeringItem.setId(id);
+            System.out.println("offering item inserted id : "+ id);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void insertOfferingItem(Offering offering){
 
-        for(var o:offering.getOfferingItemList()){
+        for(var o : offering.getOfferingItemList()){
 
             int instructorId = 0;
 

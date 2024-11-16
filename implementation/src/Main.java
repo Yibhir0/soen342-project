@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-
-
 public class Main {
 
     static Organisation org ;
@@ -34,7 +32,7 @@ public class Main {
         DatabaseSetup.createTables();
 
         org = OrganisationDAO.getOrganisationFromDB();
-//        org = OrganisationData.generateOrganizationData();
+//      org = OrganisationData.generateOrganizationData();
 
         mainMenu();
     }
@@ -682,8 +680,8 @@ public static Client selectChild(Client client){
      */
 
     private static Instructor logInAsInstructor () {
-        ArrayList<Instructor> instructors = org.getInstructors();
 
+        ArrayList<Instructor> instructors = org.getInstructors();
         System.out.println("Enter username:");
         Scanner scanner = new Scanner(System.in);
         String username = scanner.nextLine();
@@ -691,6 +689,7 @@ public static Client selectChild(Client client){
         String password = scanner.nextLine();
 
         for (var instructor : instructors) {
+
             if (instructor.login(username, password) == 1) {
                 System.out.println("Login successful");
                 return instructor;
@@ -846,16 +845,6 @@ public static Client selectChild(Client client){
         int clientId = scanner.nextInt();
         return clientId;
     }
-
-
-
-
-
-
-
-
-
-
 
 }
 

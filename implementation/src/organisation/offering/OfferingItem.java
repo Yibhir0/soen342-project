@@ -100,7 +100,7 @@ public boolean isAvailable(){
     public String toString(){
         String type= isPrivate?"Private":"Group";
         String instructorName=instructor!=null?instructor.getName():"N/A";
-        return startTime + " - " + endTime +". " + type + ". Instructor: " + instructorName ;
+        return id + " - " + startTime + " - " + endTime +". " + type + ". Instructor: " + instructorName ;
     }
 
     public String toStringForPublic(){
